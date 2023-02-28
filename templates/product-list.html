@@ -1,0 +1,48 @@
+{% load static %}
+<ul class="product style2 isotope-product clearfix">
+    {% for object in products %}
+      <li class="product-item kid woman">
+        <div class="product-thumb clearfix">
+          <a href="#">
+            <img src="{{ object.image.url }}" alt="image" />
+          </a>
+        </div>
+        <div class="product-info clearfix">
+          <span class="product-title">{{ object.title }}</span>
+          <div class="price">
+            <ins><span class="amount">{{ object.min_price }}</span></ins>
+          </div>
+        </div>
+        <div class="add-to-cart text-center">
+          <a href="#">ADD TO CART</a>
+        </div>
+        <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
+      </li>
+    {% endfor %}
+  </ul>
+  
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        {% if products.has_previous %}
+        <a class="page-link" href="#" data-page="{{ products.previous_page_number }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+        {% endif %}
+      </li>
+      {% for i in products.paginator.page_range %}
+        <li class="page-item{% if i == products.number %} active{% endif %}">
+          <a class="page-link" href="#" data-page="{{ i }}">{{ i }}</a>
+        </li>
+      {% endfor %}
+      <li class="page-item">
+        {% if products.has_next %}
+        <a class="page-link" href="#" data-page="{{ products.next_page_number }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
