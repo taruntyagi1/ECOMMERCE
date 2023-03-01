@@ -41,6 +41,7 @@ USER_ROLES = (
 )
 
 class User(AbstractBaseUser):
+    profile_image = models.ImageField(upload_to='photo/user',null = True,blank = True)
     first_name = models.CharField(max_length=100,null = True,blank = True)
     last_name = models.CharField(max_length=100, null = True, blank = True)
     username = models.CharField(max_length=200, unique = True,null = True,blank = True)

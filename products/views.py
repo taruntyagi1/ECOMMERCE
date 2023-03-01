@@ -9,6 +9,15 @@ from django.views.generic import TemplateView,ListView
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.views import View
+from django.contrib.auth.hashers import make_password
+from accounts.utils import send_verification_email
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_bytes,force_str
+from django.contrib.auth.tokens import default_token_generator
+from accounts.decorator import unauthenticated
+from django.utils.decorators  import method_decorator
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -128,11 +137,21 @@ def add_to_cart(request, product_id):
 class LoginView(TemplateView):
     template_name = 'login.html'
 
+    @method_decorator(unauthenticated)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def post(self,request):
+        if request.user.is_authenticated:
+            return redirect('home')
         email = request.POST.get('email')
         password = request.POST.get('password')
         print(request.POST)
         user = authenticate(request,email = email,password = password)
+        if user is not None:
+            print("true")
+        else:
+            print('false')
         if user is not None:
             login(request,user)
             messages.success(request,'you are logged in')
@@ -169,3 +188,74 @@ class ContactView(TemplateView):
 
 def handle_404(request,exception):
     return render(request,'404.html')
+
+
+class UserDashboard(TemplateView):
+    template_name = 'user_dashboard.html'
+
+   
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
+    
+
+class UserRegister(TemplateView):
+    template_name = 'register.html'
+
+    @method_decorator(unauthenticated)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    
+
+    def post(self,request):
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        phone_number = request.POST.get('phone_number')
+        profile_photo = request.FILES['image']
+        print(request.POST)
+        if password != password2:
+            messages.error(request,'Password does not match')
+        hash_password = make_password(password)
+        if User.objects.filter(email = email).exists():
+            messages.error(request,"User with this Email already exist")
+        if User.objects.filter(username = username).exists():
+            messages.error(request,"User with this username is already exists")
+        if User.objects.filter(phone_number = phone_number).exists():
+            messages.error(request,"User this phone number is already exists")
+        user = User.objects.create(first_name = first_name,last_name = last_name,username = username,email = email,phone_number = phone_number,password = hash_password,profile_image = profile_photo)
+        
+        
+        
+
+        user.save()
+        send_verification_email(request,user)
+        messages.success(request, 'Your account has been created! Please check your email to activate your account.')
+        return redirect('home')
+    
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
+    
+
+
+def activate_account(request,uidb64,token):
+    try:
+        uid =  force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(id = uid)
+    except User.DoesNotExist:
+        user = None
+
+    if user is not None and default_token_generator.check_token(user,token):
+        user.is_active = True
+        user.save()
+        return redirect('login')
+    else:
+        return redirect('register')
+
+    

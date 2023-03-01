@@ -851,28 +851,7 @@ $(document).ready(function() {
 
 
 
-$(document).ready(function() {
-  var page = 2; // start from the second page of products
-  var url = '{% url "load_more_products" %}'; // replace with your URL for loading more products
 
-  $('#load-more-btn').click(function() {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      data: {
-        'page': page
-      },
-      success: function(data) {
-        if (data.trim()) {
-          $('#product-list').append(data);
-          page++;
-        } else {
-          $('#load-more-btn').hide();
-        }
-      }
-    });
-  });
-});
 
 
 $(document).ready(function() {
@@ -906,9 +885,7 @@ $(document).ready(function() {
   })
 
 
-  $(document).ready(function(){
-    $('.owl-carousel').removeClass('.owl-dots')
-  })
+  
 
 
 // $(function() {
@@ -937,7 +914,7 @@ $(document).ready(function(){
 $(document).ready(function(){
    
     $('#lgn_btn').click(function(){
-        alert('works')
+       
         $('#lgn_msg').show()
         setTimeout(function(){
             $('#lgn_msg').hide()

@@ -12,6 +12,9 @@ urlpatterns = [
     path('add_to_cart/<int:product_id>/',views.add_to_cart,name='add_to_cart'),
     path('login/',LoginView.as_view(),name='login'),
     path('logout/',Logout.as_view(),name='logout'),
-    path('contact/',ContactView.as_view(),name = 'contact')
+    path('contact/',ContactView.as_view(),name = 'contact'),
+    path('user_dashboard/',UserDashboard.as_view(),name='user_dashboard'),
+    path('register/',UserRegister.as_view(),name='register'),
+    path('activate/<token>/<uidb64>/',views.activate_account,name='activate')
     
 ]

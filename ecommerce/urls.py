@@ -25,6 +25,7 @@ from django.conf.urls import handler404
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('user/',include('accounts.urls')),
     path('',include('products.urls'))
     
     
