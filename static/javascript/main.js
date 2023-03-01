@@ -922,3 +922,24 @@ $(document).ready(function() {
 //     });
 //   });
   
+$('#lightSlider').lightSlider({
+    gallery: true,
+    item: 1,
+    loop: true,
+    slideMargin: 0,
+    thumbItem: 6
+});
+
+
+
+$(document).ready(function(){
+    $('.carousel').slick({
+    slidesToShow: 3,
+    dots:true,
+    centerMode: true,
+    });
+  });
+
+$('#lgn_btn').click(function(){
+    console.log('works')
+})

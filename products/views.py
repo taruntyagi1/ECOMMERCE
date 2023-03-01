@@ -6,6 +6,9 @@ from category.models import *
 from accounts.models import User
 from cart.models import *
 from django.views.generic import TemplateView
+from django.contrib.auth import authenticate,login
+from django.contrib import messages
+
 
 
 def home(request):
@@ -121,8 +124,29 @@ def add_to_cart(request, product_id):
         return redirect('home')
 
 
+class LoginView(TemplateView):
+    template_name = 'login.html'
+
+    def post(self,request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        print(request.POST)
+        user = authenticate(request,email = email,password = password)
+        if user is not None:
+            login(request,user)
+            messages.success(request,'you are logged in')
+            return redirect('home')
+        else:
+            messages.error(request,'Validation error')
+            return redirect('login')
+        
 
 
-    
+    def get_context_data(self,*args,**kwargs):
+        context = super(self.__class__,self).get_context_data(*args,**kwargs)
+        
+        return context
+
+
 
 
