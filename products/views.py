@@ -155,3 +155,17 @@ class Logout(View):
     def get(self,request):
         logout(request)
         return redirect('home')
+
+
+
+class ContactView(TemplateView):
+    template_name = 'contact-v2.html'
+
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
+    
+
+
+def handle_404(request,exception):
+    return render(request,'404.html')

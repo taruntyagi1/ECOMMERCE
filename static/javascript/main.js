@@ -937,6 +937,7 @@ $(document).ready(function(){
 $(document).ready(function(){
    
     $('#lgn_btn').click(function(){
+        alert('works')
         $('#lgn_msg').show()
         setTimeout(function(){
             $('#lgn_msg').hide()
