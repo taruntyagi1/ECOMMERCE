@@ -939,3 +939,7 @@ $(document).ready(function(){
     centerMode: true,
     });
   });
+
+$('#lgn_btn').click(function(){
+    console.log('works')
+})
