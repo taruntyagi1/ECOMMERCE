@@ -104,9 +104,18 @@
                   </button>
                 </form>
               </li>
+              {% if user.is_authenticated %}
+              <li class="active">
+                <a href="{% url 'logout' %}">Logout</a>
+                
+              </li>
+              {% else %}
               <li class="box-login">
                 <a class="icon_login" href="{% url 'login' %}"></a>
               </li>
+
+             
+              {% endif %}
               <li class="box-cart nav-top-cart-wrapper">
                 <a class="icon_cart nav-cart-trigger active" href="#"
                   ><span>3</span></a

@@ -5,9 +5,10 @@ from django.shortcuts import render, get_object_or_404
 from category.models import *
 from accounts.models import User
 from cart.models import *
-from django.views.generic import TemplateView
-from django.contrib.auth import authenticate,login
+from django.views.generic import TemplateView,ListView
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.views import View
 
 
 
@@ -149,4 +150,8 @@ class LoginView(TemplateView):
 
 
 
+class Logout(View):
 
+    def get(self,request):
+        logout(request)
+        return redirect('home')

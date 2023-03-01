@@ -11,5 +11,6 @@ urlpatterns = [
     path('single_product/<int:product_id>/',views.single_product_detail,name='single_product'),
     path('add_to_cart/<int:product_id>/',views.add_to_cart,name='add_to_cart'),
     path('login/',LoginView.as_view(),name='login'),
+    path('logout/',Logout.as_view(),name='logout')
     
 ]

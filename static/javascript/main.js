@@ -922,13 +922,7 @@ $(document).ready(function() {
 //     });
 //   });
   
-$('#lightSlider').lightSlider({
-    gallery: true,
-    item: 1,
-    loop: true,
-    slideMargin: 0,
-    thumbItem: 6
-});
+
 
 
 
@@ -940,6 +934,14 @@ $(document).ready(function(){
     });
   });
 
-$('#lgn_btn').click(function(){
-    console.log('works')
+$(document).ready(function(){
+   
+    $('#lgn_btn').click(function(){
+        $('#lgn_msg').show()
+        setTimeout(function(){
+            $('#lgn_msg').hide()
+        },2000)
+        
+    })
 })
+
