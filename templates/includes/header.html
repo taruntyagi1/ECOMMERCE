@@ -80,7 +80,7 @@
             </div>
             <div class="mobile-button"><span></span></div>
             <ul class="menu-extra">
-              <li class="box-search">
+              {% comment %} <li class="box-search">
                 <a class="icon_search header-search-icon" href="#"></a>
                 <form
                   role="search"
@@ -103,10 +103,22 @@
                     Search
                   </button>
                 </form>
-              </li>
-              <li class="box-login">
+              </li> {% endcomment %}
+              {% if user.is_authenticated %}
+              
+             
+              <li class="box-login" style="display:none;">
                 <a class="icon_login" href="{% url 'login' %}"></a>
               </li>
+              {% else %}
+
+              <li class="box-login" style="display:block;">
+                <a class="icon_login" href="{% url 'login' %}"></a>
+              </li>
+
+
+             
+              {% endif %}
               <li class="box-cart nav-top-cart-wrapper">
                 <a class="icon_cart nav-cart-trigger active" href="#"
                   ><span>3</span></a
@@ -142,12 +154,25 @@
                     <li><a href="{% url 'faq' %}">FAQs</a></li>
                     
                   </li>
+                 
                   <li>
-                    <a href="blog-list.html">BLOG</a>
+                    <a href="{% url 'contact' %}">CONTACT</a>
                     
                   </li>
                   <li>
-                    <a href="contact.html">CONTACT</a>
+                    {% if user.is_authenticated %}
+               
+                    <li class="dropdown profile_dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
+                      <ul class="dropdown-menu ">
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                      </ul>
+                    </li>
+                    {% else %}
+
+                    {% endif %}
+                    
                     
                   </li>
                 </ul>

@@ -3565,3 +3565,21 @@ h2 {
 	display: flex;
 	margin-top: 60px !important;
 }
+
+
+.header-style-1.has-menu-extra .nav-wrap {
+    right: 103px;
+}
+
+
+.show > .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+ul.dropdown-menu li a {
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    margin-left: 10px;
+}
