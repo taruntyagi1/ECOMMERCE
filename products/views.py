@@ -285,3 +285,10 @@ class USerOrders(TemplateView):
         return context
     
 
+class Basket(TemplateView):
+    template_name = 'basket.html'
+
+    def get_context_data(self,**kwargs):
+        context = super(Basket,self).get_context_data(**kwargs)
+        return context
+

@@ -15,6 +15,7 @@ urlpatterns = [
     path('contact/',ContactView.as_view(),name = 'contact'),
     path('user_dashboard/',UserDashboard.as_view(),name='user_dashboard'),
     path('register/',UserRegister.as_view(),name='register'),
-    path('activate/<token>/<uidb64>/',views.activate_account,name='activate')
+    path('activate/<token>/<uidb64>/',views.activate_account,name='activate'),
+    path('basket/',Basket.as_view(),name='basket')
     
 ]

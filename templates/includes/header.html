@@ -121,17 +121,13 @@
              
               {% endif %}
               <li class="box-cart nav-top-cart-wrapper">
-                <a class="icon_cart nav-cart-trigger active" href="#"
-                  ><span>3</span></a
-                >
+                <a class="icon_cart nav-cart-trigger active" href="{% url 'basket' %}"><span>3</span></a>
                 <div class="nav-shop-cart">
                   <div class="widget_shopping_cart_content">
                     <div class="woocommerce-min-cart-wrap">
-                      <ul
-                        class="woocommerce-mini-cart cart_list product_list_widget"
-                      >
+                      <ul class="woocommerce-mini-cart cart_list product_list_widget">
                         <li class="woocommerce-mini-cart-item mini_cart_item">
-                          <span>No Items in Shopping Cart</span>
+                          
                         </li>
                       </ul>
                     </div>

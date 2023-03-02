@@ -4,171 +4,43 @@
 {% block content %}
 
 
-<div class="user_sidebar">
-    <div class="container-fluid">
-        <!--Design by foolishdeveloper.com-->
-
-
-   
-    <div class="wrapper">
-       <div class="section">
-    <div class="top_navbar">
-      <div class="hamburger">
-        <a href="#">
-          <i class="fas fa-bars"></i>
-        </a>
+<div class="user_container">
+    <div class="user_sidebar">
+      <div class="container-fluid">
+        <div class="sidebar">
+          <img src="" alt="">
+          <ul class="nav-items">
+            <li><a href="">My Profile</a></li>
+            <li><a href="">My Orders</a></li>
+            <li><a href="">My Address</a></li>
+            <li><a href="">Logout</a></li>
+          </ul>
+        </div>
       </div>
     </div>
-    
-  </div>
-  <div class="row">
-    <div class="col-md-2">
-        <div class="sidebar">
-            <div class="profile">
-                <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="profile_picture">
-                {% comment %} <h3>Anamika Roy</h3> {% endcomment %}
-                <p>Designer</p>
-            </div>
-            <ul>
-                <li>
-                    <a href="{% url 'user_dashboard' %}" class="active">
-                        <span class="icon"><i class="fas fa-home"></i></span>
-                        <span class="item">My profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><i class="fas fa-desktop"></i></span>
-                        <span class="item">My orders</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><i class="fas fa-user-friends"></i></span>
-                        <span class="item">My address</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><i class="fas fa-tachometer-alt"></i></span>
-                        <span class="item">Logout</span>
-                    </a>
-                </li>
-                
-                
-                
-                
-            </ul>
-        </div>
-
-    </div>
-    <div id="user_side_section" class="col-md-6">
-        <div class="container">
-            
-            <div class="user_first_section">
-                <!-- 2 column grid layout with text inputs for the first and last names -->
-                <div class="row mb-4">
-                  <div class="col">
-                    <div class="form-outline">
-                        <label id="first_name" class="form-label" for="first_name">First name</label>
-                      <input type="text" id="first_input" class="form-control" name = 'first_name' value="{{user_details.first_name}}" />{{user_details.first_name}}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="form-outline">
-                        <label id="last_name" class="form-label" for="last_name">Last name</label>
-                      <input type="text" id="last_input" class="form-control" name="last_name" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col">
-                      <div class="form-outline">
-                          <label  id="username" class="form-label" for="password">Username</label>
-                        <input type="text" id="username_input" class="form-control" name="username" />
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-outline">
-                          <label id="email" class="form-label" for="email">Email</label>
-                        <input type="text" id="email_input" class="form-control" name="email" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col">
-                      <div class="form-outline">
-                          <label id="phone_number" class="form-label" for="phone_number">Phone Number</label>
-                        <input type="text" id="phone_input" class="form-control" name="phone_number" />
-                      </div>
-                    </div>
-                    
-                    
-                  </div>
-                  <button onclick="showSection()">Show Section 2</button>
-                </div>
-                 
-                  
-                
-              <div class="second_user_profile" style="display: none;">
-              <form method="post" action="{% url 'user_dashboard' %}">
-                {% csrf_token %}
-                
-                <!-- 2 column grid layout with text inputs for the first and last names -->
-                <div class="row mb-4">
-                  <div class="col">
-                    <div class="form-outline">
-                        <label id="first_name" class="form-label" for="first_name">First name</label>
-                      <input type="text" id="first_input" class="form-control" name = 'first_name' value="{{user_details.first_name}}" />{{user_details.first_name}}
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="form-outline">
-                        <label id="last_name" class="form-label" for="last_name">Last name</label>
-                      <input type="text" id="last_input" class="form-control" name="last_name" />
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col">
-                      <div class="form-outline">
-                          <label  id="username" class="form-label" for="password">Username</label>
-                        <input type="text" id="username_input" class="form-control" name="username" />
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-outline">
-                          <label id="email" class="form-label" for="email">Email</label>
-                        <input type="text" id="email_input" class="form-control" name="email" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col">
-                      <div class="form-outline">
-                          <label id="phone_number" class="form-label" for="phone_number">Phone Number</label>
-                        <input type="text" id="phone_input" class="form-control" name="phone_number" />
-                      </div>
-                    </div>
-                    
-                  </div>
-                  <button id="save_btn" type="submit" class="btn btn-primary">Save</button>
-                  
-                  
-              </form>
-            </div>
-
-        </div>
-   
+    <div class="user_profile">
+      <div class="class-form">
+        <label for="">First Name</label>
+        <input disabled type="text" value="{{user.first_name}}">
+      </div>
+      <div class="class-form">
+        <label for="">Last Name</label>
+        <input disabled type="text" value="{{user.last_name}}">
+      </div>
+      <div class="class-form">
+        <label for="">Email</label>
+        <input disabled type="text" value="{{user.email}}">
+      </div>
+      <div class="class-form">
+        <label for="">Username</label>
+        <input disabled type="text" value="{{user.username}}">
+      </div>
+      <div class="class-form">
+        <label for="">Phone Number</label>
+        <input disabled type="text" value="{{user.phone_number}}">
+      </div>
     </div>
   </div>
-        
-        
-    </div>
- 
-
-    </div>
-</div>
 
 
    
