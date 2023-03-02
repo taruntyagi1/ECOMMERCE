@@ -923,3 +923,11 @@ $(document).ready(function(){
     })
 })
 
+
+
+
+function showSection() {
+    document.getElementsByClassName('user_first_section').style.display  = "none";
+    document.getElementsByClassName('second_user_profile').style.display = "block";
+}
+

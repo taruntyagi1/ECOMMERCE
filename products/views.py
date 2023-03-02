@@ -193,9 +193,25 @@ def handle_404(request,exception):
 class UserDashboard(TemplateView):
     template_name = 'user_dashboard.html'
 
+
+    def post(self,request):
+        user_id = request.user.id
+       
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+
+        profile = User.objects.filter(id = user_id).update(first_name = first_name,last_name = last_name,username = username,email = email,phone_number = phone_number)
+        return redirect('user_dashboard')
+
    
     def get_context_data(self,**kwargs):
         context = super(self.__class__,self).get_context_data(**kwargs)
+        
+        
+        
         return context
     
 
@@ -258,4 +274,14 @@ def activate_account(request,uidb64,token):
     else:
         return redirect('register')
 
+
+
+class USerOrders(TemplateView):
+    template_name = 'order.html'
+
+
+    def get_context_data(self,**kwargs):
+        context = super(USerOrders,self).get_context_data(**kwargs)
+        return context
     
+

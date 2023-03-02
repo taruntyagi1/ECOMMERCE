@@ -3555,31 +3555,260 @@ h2 {
 }
 
 
-#login_image{
-	
+#login_image {
+
 	width: 861px !important;
-    height: 447px;
-    margin-left: -145px;
-    /* margin-right: 72px; */
-    padding: 0px;
+	height: 447px;
+	margin-left: -145px;
+	/* margin-right: 72px; */
+	padding: 0px;
 	display: flex;
 	margin-top: 60px !important;
 }
 
 
 .header-style-1.has-menu-extra .nav-wrap {
-    right: 103px;
+	right: 103px;
 }
 
 
-.show > .dropdown-menu {
-    display: flex;
-    flex-direction: column;
+.show>.dropdown-menu {
+	display: flex;
+	flex-direction: column;
 }
 
 ul.dropdown-menu li a {
-    font-size: 15px;
-    letter-spacing: 1px;
-    font-weight: 500;
-    margin-left: 10px;
+	font-size: 15px;
+	letter-spacing: 1px;
+	font-weight: 500;
+	margin-left: 10px;
 }
+
+.wrapper .sidebar {
+	background: rgb(48 103 135);
+	position: fixed;
+	top: 109px;
+	left: 0;
+	width: 225px;
+	height: 600px !important;
+	padding: 20px 0;
+	transition: all 0.5s ease;
+}
+
+.wrapper .sidebar .profile {
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.wrapper .sidebar .profile img {
+	display: block;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	margin: 0 auto;
+}
+
+.wrapper .sidebar .profile h3 {
+	color: #ffffff;
+	margin: 10px 0 5px;
+}
+
+.wrapper .sidebar .profile p {
+	color: rgb(206, 240, 253);
+	font-size: 14px;
+}
+
+.wrapper .sidebar ul li a {
+	display: block;
+	padding: 13px 30px;
+	border-bottom: 1px solid rgb(48 103 135);
+	;
+	color: rgb(241, 237, 237);
+	font-size: 16px;
+	position: relative;
+}
+
+.wrapper {
+	background-color: rgb(241, 237, 237);
+	;
+}
+
+.wrapper .sidebar ul li a .icon {
+	color: black;
+	width: 30px;
+	display: inline-block;
+}
+
+
+
+/* .wrapper .sidebar ul li a:hover,
+  .wrapper .sidebar ul li a.active{
+	color: #0c7db1;
+  
+	background:white;
+	  border-right: 2px solid rgb(5, 68, 104);
+  } */
+/*   
+  .wrapper .sidebar ul li a:hover .icon,
+  .wrapper .sidebar ul li a.active .icon{
+	color: #0c7db1;
+  } */
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before {
+	display: block;
+}
+
+.wrapper .section {
+	width: calc(100% - 225px);
+	margin-left: 225px;
+	transition: all 0.5s ease;
+}
+
+.wrapper .section .top_navbar {
+	background: rgba(214, 211, 211, 0.05);
+	height: 50px;
+	display: flex;
+	align-items: center;
+	padding: 0 30px;
+	margin-top: -19px;
+
+}
+
+.wrapper .section .top_navbar .hamburger a {
+	font-size: 28px;
+	color: black;
+}
+
+.wrapper .section .top_navbar .hamburger a:hover {
+	color: #a2ecff;
+}
+
+
+
+body.active .wrapper .sidebar {
+	left: -225px;
+}
+
+body.active .wrapper .section {
+	margin-left: 0;
+	width: 100%;
+}
+
+
+
+
+
+
+/* user profile css*/
+
+/* .user_sidebar #user_side_col{
+	height: 500px !important;
+	background-color: white;
+	width: 200px !important;
+	margin-top: 30px;
+	margin-left: 20px !important;
+
+}
+
+.user_sidebar .nav-items{
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 189px;
+    left: 67px;
+}
+.user_sidebar .nav-items li a{
+	color: black;
+	font-size: 16px;
+	
+	top: 60px;
+	margin-top: 40px;
+	line-height: 10px;
+	font-weight: 500;
+}
+
+.user_sidebar .nav-items li{
+	margin-bottom: 20px !important;
+}
+
+.user_sidebar .user_img{
+	height: 200px;
+} */
+
+
+/* #user_side_section .container{
+	display: flex;
+	gap: 10px ;
+	width: 700px;
+	position: relative;
+}
+#user_side_section .container .user_items{
+	position: fixed;
+}
+
+#user_side_section .user_items label{
+	margin-left: -100px;
+	
+}
+#user_side_section .user_items input{
+	margin-top: 60px !important;
+	width: 300px !important;
+	height: 40px !important;
+} */
+
+#user_side_section{
+	margin-left: 200px !important;
+	margin-top: 60px !important;
+}
+#user_side_section .col label{
+	margin-left : -240px !important;
+	font-weight: 500 !important;
+}
+
+
+#user_side_section .card:hover{
+	transform: none;
+}
+
+#user_side_section {
+	margin-left: 200px !important;
+    margin-top: 29px !important;
+	background-color: white;
+    height: 492px;
+
+
+}
+
+
+#user_side_section form{
+	margin-top: 50px !important;
+}
+
+#user_side_section input{
+	background-color: rgb(248, 245, 245) !important;
+	border: 1px solid rgb(216, 208, 208);
+}
+
+#user_side_section input:focus{
+	border: none !important;
+}
+
+#user_side_section .col #phone_number{
+	margin-left: -600px !important;
+}
+#user_side_section .col #phone_input{
+	width: 350px !important;
+}
+
+#user_side_section #save_btn{
+	margin-left: -650px !important;
+	margin-top: 10px !important;
+}
+
+#user_side_section .second_user_profile{
+	margin-top: -365px;
+}
+
+   

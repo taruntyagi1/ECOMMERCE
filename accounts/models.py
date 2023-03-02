@@ -75,3 +75,8 @@ class User(AbstractBaseUser):
 
     def has_module_perms(perms,app_label):
         return True
+    
+
+    def get_full_name(self):
+        full_name =  self.first_name.upper() + self.last_name.upper()
+        return full_name
