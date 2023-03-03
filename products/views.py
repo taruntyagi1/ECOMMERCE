@@ -286,7 +286,15 @@ class USerOrders(TemplateView):
 class Basket(TemplateView):
     template_name = 'basket.html'
 
-    def get_context_data(self,**kwargs):
-        context = super(Basket,self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_items = CartItems.objects.filter(user=self.request.user)
+        print(f"Number of cart items: {len(cart_items)}")
+        for item in cart_items:
+            print(f"Product: {item.product.title}")
+            for variant in item.variant.all():
+                print(f"Variant type: {variant.variant_type}")
+                print(f"Variant value: {variant.variant_value}")
+        context['cart'] = cart_items
         return context
 

@@ -903,13 +903,7 @@ $(document).ready(function() {
 
 
 
-$(document).ready(function(){
-    $('.carousel').slick({
-    slidesToShow: 3,
-    dots:true,
-    centerMode: true,
-    });
-  });
+
 
 $(document).ready(function(){
    
@@ -946,5 +940,27 @@ $('.edit_btn a').click(function(){
 
 })
 
+
+
+// $('.owl-carousel').owlCarousel({
+//     loop:false,
+//     margin:2,
+//     responsiveClass:true,
+//     responsive:{
+//         0:{
+//             items:1,
+//             nav:true
+//         },
+//         600:{
+//             items:3,
+//             nav:false
+//         },
+//         1000:{
+//             items:3,
+//             nav:true,
+//             loop:false
+//         }
+//     }
+// })
 
 

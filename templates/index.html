@@ -349,29 +349,31 @@
         </div>
       </section>
 
-      
-      <section class = "new_product_section">
-        <div class="wrapper">
-          
-          <div class="carousel">
-              {% for obj in products  %}
-             <div class="card" style="width: 19rem;">
-                 <img src="{{obj.image.url}}" class="card-img-top" alt="..." id = "new_prd_img">
-              <div class="card-body">
+      <section class="product-section">
+        <div class="container">
+        <div class="owl-carousel products">
+          {% for obj in products  %}
+          <div class="card" style="width: 20rem;">
+            <img src="{{obj.image.url}}" class="card-img-top" alt="..." id = "new_prd_img">
+            <div class="card-body">
               <h5 class="card-title">{{obj.title}}</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               <div>
-              <div class="buy d-flex justify-content-between align-items-center">
-                <div class="price text-success"><h5 class="mt-4">{{obj.min_price}} <span> <del class = "mx-2" style = "color:red;">{{obj.max_price}}</del></span></h5></div>
-                 <a href="{% url 'single_product' obj.id %}" class="btn btn-danger mt-3"><i class="fa fa-shopping-cart"></i> View product</a>
+                <div class="buy d-flex justify-content-between align-items-center">
+                  <div class="price text-success"><h5 class="mt-4">{{obj.min_price}} <span> <del class = "mx-2" style = "color:red;">{{obj.max_price}}</del></span></h5></div>
+                   <a href="{% url 'single_product' obj.id %}" class="btn btn-danger mt-3"><i class="fa fa-shopping-cart"></i> View product</a>
+                </div>
               </div>
             </div>
           </div>
+          {% endfor %}
+
         </div>
-        {% endfor %}
-              </div>
-        </div>
+      </div>
       </section>
+
+      
+      
      
       
 

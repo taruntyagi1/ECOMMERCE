@@ -3522,6 +3522,12 @@ input:focus {
 .new_product_section .container {
 	width: 1272px !important;
 }
+.product-section .products .card{
+	margin-left: -2px;
+}
+.product-section .container{
+	width: 1300px !important
+}
 
 
 .wrapper {
@@ -4041,7 +4047,7 @@ body.active .wrapper .section {
 }
 
 .user_basket .cart_totals {
-	left: -120px;
+	left: -65px;
     top: 39px;
     position: relative;
     /* width: 300px; */
@@ -4109,4 +4115,8 @@ body.active .wrapper .section {
 	left: 150px;
 	color: rgb(32, 133, 32);
 	font-weight: 500;
+}
+
+.product-section .container .slick-slider{
+	/* display: flex; */
 }
