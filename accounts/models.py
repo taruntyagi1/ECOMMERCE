@@ -78,5 +78,5 @@ class User(AbstractBaseUser):
     
 
     def get_full_name(self):
-        full_name =  self.first_name.upper() + self.last_name.upper()
+        full_name =  self.first_name.capitalize() + " " + self.last_name.capitalize()
         return full_name
