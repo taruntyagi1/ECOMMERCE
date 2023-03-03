@@ -926,8 +926,25 @@ $(document).ready(function(){
 
 
 
-function showSection() {
-    document.getElementsByClassName('user_first_section').style.display  = "none";
-    document.getElementsByClassName('second_user_profile').style.display = "block";
-}
+$(document).ready(function(){
+    $('.user_profile input').prop('disabled', true)
+    $('#save_btn').hide()
+})
+
+$(document).ready(function(){
+
+$('.edit_btn a').click(function(){
+
+    
+    $('#save_btn').show()
+    $('.user_profile input').prop('disabled', false)
+    $('#save_btn').click(function(){
+        location.reload(true);
+    })
+    
+})
+
+})
+
+
 
