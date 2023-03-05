@@ -80,3 +80,17 @@ class User(AbstractBaseUser):
     def get_full_name(self):
         full_name =  self.first_name.capitalize() + " " + self.last_name.capitalize()
         return full_name
+
+ADDRESS_CHOICE = (
+    ('Home Address', 'Home Address'),
+    ("Office Address",'Office Address')
+)
+class UserAddress(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null = True)
+    address1 = models.CharField(max_length=1000,null = True)
+    address2 = models.CharField(max_length=1000,null = True)
+    address_type = models.CharField(max_length=200,choices=ADDRESS_CHOICE,null = True)
+    country = models.CharField(max_length=200,null = True)
+    state = models.CharField(max_length=100,null = True)
+    city = models.CharField(max_length=200,null =  True)
+    pin_code = models.CharField(max_length=200,null = True)

@@ -230,9 +230,11 @@
                         alt="Image"
                       />
                       <div class="elm-btn">
-                        <a href="#" class="themesflat-button bg-white width-150"
-                          >For Men’s</a
-                        >
+                        <form action="{% url 'filter_name' %}" method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="cat_name" value="men">
+                          <button type="submit" class="cat_btn">For Men’s</button>
+                        </form>
                       </div>
                       <div class="overlay-effect bg-color-1"></div>
                     </div>
@@ -266,9 +268,12 @@
                         alt="Image"
                       />
                       <div class="elm-btn">
-                        <a href="#" class="themesflat-button bg-white width-150"
-                          >accessories</a
-                        >
+                        <form action="{% url 'filter_name' %}" method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="cat_name" value="accessories">
+                          <button type="submit" class="cat_btn">Accessories</button>
+                        </form>
+                        
                       </div>
                       <div class="overlay-effect bg-color-1"></div>
                     </div>
@@ -286,9 +291,11 @@
                         alt="Image"
                       />
                       <div class="elm-btn">
-                        <a href="#" class="themesflat-button bg-white width-150"
-                          >For woMen’s</a
-                        >
+                        <form action="{% url 'filter_name' %}" method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="cat_name" value="women">
+                          <button type="submit" class="cat_btn">For Women’s</button>
+                        </form>
                       </div>
                       <div class="overlay-effect bg-color-1"></div>
                     </div>

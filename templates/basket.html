@@ -3,48 +3,196 @@
 
 
 {% block content %}
-<div class="user_basket">
-    <div class="container-fluid">
-        <div class="cart_items">
-            <div class="card" style="width: 18rem;">
-                {% for obj in cart %}
-                <img src="{{ obj.product.image.url }}" alt="">
-                <div class="card-title">
-                    <h4>{{ obj.product.title }}</h4>
-                    {% for variant in obj.variant.all %}
-                        <h4>{{ variant.variant_type }}: <span>{{ variant.variant_value }}</span></h4>
-                    {% endfor %}
-                    
-                    <a class="plus_btn btn btn-primary" href=""><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
-                    <input class="quantity" type="number" value="{{ obj.quantity }}">
-                    <a class="minus_btn btn btn-primary" href=""><span><i class="fa fa-minus" aria-hidden="true"></i></span></a>
-                    <a class="wish_list" href=""><span ><i class="fa-solid fa-heart"></i></span></a>
-                    <h4 class="prd_price">₹{{ obj.price }}</h4>
-                </div>
-                {% endfor %}
-            </div>
-            
-        </div>
-        <div class="cart_totals">
-            <div class="card" style="width: 18rem;">
-              
-                <div class="card-body" style="width : 17rem;">
-                    <h5 class="order_sum">Order Summary</h5>
-                    <div class="line"></div>
-                    <h5 class="voucher_txt">Do you have any voucher</h5>
-                    <input class="cart_voucher" type="text">
-               
-                    <a href="#" class="btn btn-primary apply-btn">Apply</a>
-                    <p class="cart_price">Price</p>
-                    <p class="cart_ship">Shipping Charges <span>Free</span></p>
-                    <p class="cart_discount">Discount</p>
-                
-                </div>
-            </div>
 
+
+
+
+
+    <!-- page title -->
+    <section class="page-title-inner" data-bg-img='assets/img/page-titlebg.png'>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- page title inner -->
+                    <div class="page-title-wrap">
+                        <div class="page-title-heading"><h1 class="h2">Cart List<span>Shopping</span></h1></div>
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="index.html">home</a></li>
+                            <li><a href="#">Shop</a></li>
+                            <li class="active"><a href="#">Cart List</a></li>
+                        </ul>
+                    </div>
+                    <!-- End of page title inner -->
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+    <!-- End of page title -->
+
+    <section class="pt-100 pb-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <!-- woocommerce -->
+                    <div class="woocommerce">
+                        <form action="#" method="POST" class="woocommerce-cart-form">
+                            <!-- cart product wrap -->
+                            <div class="cart-product-wrap">
+                                <!-- cart table -->
+                                <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents">
+                                    <tbody>
+                                        <!-- first table row -->
+                                        
+                                        <tr>
+                                            <td class="product-name">
+                                                Product name
+                                            </td>
+                                            
+                                            <td class="product-quantity">
+                                                Quantity
+                                            </td>
+                                            <td class="product-quantity">
+                                                Price/Unit
+                                            </td>
+                                            <td class="product-subtotal">
+                                                Total Price
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <!-- End of first table row -->
+
+                                        <!-- tr -->
+                                        {% for obj in cart  %}
+                                        <tr class="woocommerce-cart-form__cart-item cart_item">
+                                            <!-- product thumbnail -->
+                                            <td class="product-thumbnail">
+                                                <div class="product-details">
+                                                    <a href="#" class="porduct-image-wrap">
+                                                        <img src="{{obj.product.image.url}}" alt="">
+                                                    </a>
+                                                    <a class="prd-title" href="#">{{obj.product.title}}</a>
+                                                </div>
+                                            </td>
+                                            <!-- End of product thumbnail -->
+
+                                            <!-- Product size -->
+                                           
+                                            <!--End of Product Size -->
+
+                                            <!-- product quantity -->
+                                            <td>
+                                                <div class="product-quantity">
+                                                    
+                                                    <a href=""><span><i class="fa-solid fa-plus"></i></span></a><input type="text" value="{{obj.quantity}}" class="product-quantity-list"><a href=""><span><i class="fa-solid fa-minus"></i></span></a>
+                                                   
+                                                </div>
+                                            </td>
+                                            <!--End of product quantity -->
+
+                                            <td>{{obj.product.min_price}}</td>
+                                           
+                                          
+                                            <td><span class="totalprice">{{obj.price}}</span></td>
+                                            
+                                            
+
+                                            <!-- product remove -->
+                                            <td class="product-remove">
+                                                <div class="remover-field">
+                                                    <img src="assets/img/icons/remove.svg" class='svg' alt="">
+                                                </div>
+                                            </td>
+                                            <!--End of  product remove -->
+                                        </tr>
+                                        {% endfor %}
+                                        <!--End of tr -->
+                                        
+                                    </tbody>
+                                </table>
+                                <!--End of cart table -->
+
+                                <div class="cart-bottom-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-5">
+                                            <div class="btn-cupon-wrap">
+                                                <!-- cart shoping button  -->
+                                                <div class="cart-shoping-button">
+                                                    
+                                                    <a href="#" class="update-cart-btn btn btn-fill-type">Continue Shopping</a>
+                                                </div>
+                                                <!-- End of cart shoping button  -->
+
+                                                <!-- coupon -->
+                                                <div class="coupon">
+                                                    <input type="text" class="theme-input-style" placeholder="Coupon Code" required>
+                                                    <button type="submit" class="btn">Apply Coupon</button>
+                                                </div>
+                                                <!-- End of coupon -->
+                                            </div>
+                                        </div>
+                                        <div class="offset-lg-2 col-lg-4 col-md-12">
+                                            <!-- shop total wrap -->
+                                            <div class="shop-total-wrap">
+                                                <table class="shop_table shop_table_responsive">
+                                                    <tbody>
+                                                        <tr class="cart-subtotal">
+                                                            <th>
+                                                                Subtotal
+                                                            </th>
+                                                            <td>
+                                                                {{total_price}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="order-total">
+                                                            <th>
+                                                                Total
+                                                            </th>
+                                                            <td>
+                                                                <span class="woocommerce-Price-amount amount">{{total_price}}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="wc-proceed-to-checkout">
+                                                    <a href="#" class="update-cart-btn btn btn-fill-type" >Proceed To Checkout</a>
+                                                </div>
+                                            </div>
+                                            <!-- End of shop total wrap -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- cart product wrap -->
+                        </form>
+                    </div>
+                    <!-- woocommerce -->
+                </div>
+            </div>
+        </div>        
+    </section>
+
+   
+    
+    <!-- back to top -->
+    <div class="back-to-top">
+            <a href="#">
+                <div class="back-toop-tooltip"><span>Back To Top</span></div>
+                <div class="top-array"></div>
+                <div class="top-line"></div>
+            </a>
+        </div>
+        <!-- back to top -->
+    
+        
+    
+       
+       
+
+   
+
+   
+
+
 
 <style>
     footer{

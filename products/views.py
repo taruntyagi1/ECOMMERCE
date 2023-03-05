@@ -33,7 +33,22 @@ def home(request):
     return render(request,'index.html',context)
 
 
+class Homepage(TemplateView):
 
+    template_name = 'index.html'
+    def  get_context_data(self,*args,**kwargs):
+        context = super(self.__class__,self).get_context_data(*args,**kwargs)
+        return context
+    
+# class SingleProduct(TemplateView):
+#     template_name = 'shop-details-des.html'
+
+#     def get_context_data(self,*args,**kwargs):
+#         context = super(self.__class__,self).get_context_data(**kwargs)
+#         product = Product.objects.get(id = kwargs['product_id'])
+#         image = Product_images.objects.filter(product = product,is_active = True)
+#         variant = Variant.objects.filter(product = product)
+#         context 
 
 
 def faq(request):
@@ -41,17 +56,15 @@ def faq(request):
 
 
 def shop(request):
-    product_list = Product.objects.all().order_by('id')
-    paginator = Paginator(product_list, 10)  # Show 10 products per page
-    page_number = request.GET.get('page')
-    products = paginator.get_page(page_number)
+    products = Product.objects.all().order_by('id')
+    
    
 
     context = {
         'products' : products,
         
     }
-    return render(request, 'shop-3col-slide.html',context)
+    return render(request, 'shop-5col.html',context)
 
 
 
@@ -65,7 +78,30 @@ def filter_products(request):
         'products': products,
     }
 
-    return render(request,'shop-3col-slide.html',context)
+    return render(request,'shop-5col.html',context)
+
+
+class FilterName(View):
+
+    def post(self,request):
+        print(request.POST)
+        cat_name = request.POST.get('cat_name')
+        # category = Category.objects.get(title = cat_name)
+        products = Product.objects.filter(description__icontains=cat_name)
+
+        context = {
+            'products' : products,
+            
+        }
+
+        return render(request,'shop-5col.html',context)
+    
+
+
+
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
 
 
 
@@ -98,8 +134,8 @@ def add_to_cart(request, product_id):
                 variant = Variant.objects.get(variant_type=key, variant_value=value)
                 print(variant)
                 product_variant.append(variant)
-            except:
-                pass
+            except Variant.DoesNotExist:
+                variant = None
 
         cart, created = Cart.objects.get_or_create(user=user, is_paid=False)
         cart_item = None
@@ -210,6 +246,7 @@ class UserDashboard(TemplateView):
    
     def get_context_data(self,**kwargs):
         context = super(self.__class__,self).get_context_data(**kwargs)
+        # context['user'] = User.objects.filter(id = self.request.user.id)
         return context
     
 
@@ -288,13 +325,28 @@ class Basket(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         cart_items = CartItems.objects.filter(user=self.request.user)
-        print(f"Number of cart items: {len(cart_items)}")
-        for item in cart_items:
-            print(f"Product: {item.product.title}")
-            for variant in item.variant.all():
-                print(f"Variant type: {variant.variant_type}")
-                print(f"Variant value: {variant.variant_value}")
+        cart_item_price= 0
+        for items in cart_items:
+        
+            cart_item_price += items.price
+        # print(f"Number of cart items: {len(cart_items)}")
+        # for item in cart_items:
+        #     print(f"Product: {item.product.title}")
+        #     for variant in item.variant.all():
+        #         print(f"Variant type: {variant.variant_type}")
+        #         print(f"Variant value: {variant.variant_value}")
         context['cart'] = cart_items
+        context ['total_price'] = cart_item_price
         return context
 
+
+
+class User_address_edit(TemplateView):
+    template_name = 'user_address_form.html'
+
+
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
