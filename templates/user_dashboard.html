@@ -16,13 +16,13 @@
                                 <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="{% static 'icon/dashboard.svg' %}" class="svg" alt=""></span>Dashboard</a>
                             </li> {% endcomment %}
                             <li>
-                                <a class="dashboard-nav-item active" id="nav-order"   href="#"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
+                                <a class="dashboard-nav-item active" id="nav-order"   href="{% url 'user_orders' %}"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" id="nav-down"  href="#"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
+                                <a class="dashboard-nav-item" id="nav-down"  href="{% url 'user_download' %}"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" id="nav-address" href="#"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
+                                <a class="dashboard-nav-item" id="nav-address" href="{% url 'user_address_edit' %}"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
                             </li>
                             <li>
                                 <a class="dashboard-nav-item" id='nav-adetails'  href="#"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
@@ -102,18 +102,21 @@
                             <div class="address-info-inner clearfix">
                                 <!-- Billing Information -->
                                 <div class="billing-information">
+                                    {% for obj in address  %}
+                                
                                     <h5>Billing Information</h5>
                                     <ul>
                                         <li>
-                                            4968  Carolina Avenue
+                                           {{obj.country}}
                                         </li>
                                         <li>Westminster CO</li>
                                         <li>Colorado</li>
                                         <li>80030</li>
                                         <li>970-219-0067</li>
                                         <li>Australia</li>
-                                        <li><a href="#">Edit</a></li>
+                                        <li><a href="{% url 'user_address_edit' obj.id %}">Edit</a></li>
                                     </ul>
+                                    {% endfor %}
                                 </div>
                                 <!-- End of Billing Information -->
 

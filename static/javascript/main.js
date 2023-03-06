@@ -964,65 +964,65 @@ $('.edit_btn a').click(function(){
 // })
 
 
-$(document).ready(function(){
-    $('#nav-down').click(function(){
-        $('#nav-down').addClass('active')
+// $(document).ready(function(){
+//     $('#nav-down').click(function(){
+//         $('#nav-down').addClass('active')
         
-        $('.dashboard-tab-downlod').show()
-        $('.dashboard-tab-order').hide()
-        $('.address-info').hide()
-        $('.account-details').hide()
+//         $('.dashboard-tab-downlod').show()
+//         $('.dashboard-tab-order').hide()
+//         $('.address-info').hide()
+//         $('.account-details').hide()
         
 
-    })
-})
+//     })
+// })
 
-$(document).ready(function(){
-    $('#nav-address').click(function(){
-        $('.address-info').show()
-        $('#nav-address').addClass('active')
-        $('.dashboard-tab-order').hide()
-        $('.dashboard-tab-downlod').hide()
-        $('.account-details').hide()
-
-
-    })
-})
-
-$(document).ready(function(){
-    $('#nav-adetails').click(function(){
-        $('.account-details').show()
-        $('#nav-adetails').addClass('active')
-        $('.address-info').hide()
-        $('.dashboard-tab-order').hide()
-        $('.dashboard-tab-downlod').hide()
+// $(document).ready(function(){
+//     $('#nav-address').click(function(){
+//         $('.address-info').show()
+//         $('#nav-address').addClass('active')
+//         $('.dashboard-tab-order').hide()
+//         $('.dashboard-tab-downlod').hide()
+//         $('.account-details').hide()
 
 
-    })
-})
+//     })
+// })
 
-$(document).ready(function(){
-    $('#nav-order').click(function(){
-        $('.dashboard-tab-order').show()
-        $('#nav-order').addClass('active')
-        $('.account-details').hide()
-        $('.address-info').hide()
-        $('.dashboard-tab-downlod').hide()
-
-
-    })
-})
+// $(document).ready(function(){
+//     $('#nav-adetails').click(function(){
+//         $('.account-details').show()
+//         $('#nav-adetails').addClass('active')
+//         $('.address-info').hide()
+//         $('.dashboard-tab-order').hide()
+//         $('.dashboard-tab-downlod').hide()
 
 
-$(document).ready(function(){
-    $('.address_edit').click(function(){
-        $('.user-address').show()
-        $('.dashboard-tab-order').hide()
+//     })
+// })
+
+// $(document).ready(function(){
+//     $('#nav-order').click(function(){
+//         $('.dashboard-tab-order').show()
+//         $('#nav-order').addClass('active')
+//         $('.account-details').hide()
+//         $('.address-info').hide()
+//         $('.dashboard-tab-downlod').hide()
+
+
+//     })
+// })
+
+
+// $(document).ready(function(){
+//     $('.address_edit').click(function(){
+//         $('.user-address').show()
+//         $('.dashboard-tab-order').hide()
        
-        $('.account-details').hide()
-        $('.address-info').hide()
-        $('.dashboard-tab-downlod').hide()
+//         $('.account-details').hide()
+//         $('.address-info').hide()
+//         $('.dashboard-tab-downlod').hide()
 
 
-    })
-})
+//     })
+// })
