@@ -1,9 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from products.models import *
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from category.models import *
-from accounts.models import User
+from accounts.models import User,UserAddress
 from cart.models import *
 from django.views.generic import TemplateView,ListView
 from django.contrib.auth import authenticate,login,logout
@@ -16,9 +16,13 @@ from django.utils.encoding import force_bytes,force_str
 from django.contrib.auth.tokens import default_token_generator
 from accounts.decorator import unauthenticated
 from django.utils.decorators  import method_decorator
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
+from orders.models import*
+from django.urls import reverse_lazy
 
-
+    
+    
+        
 
 
 def home(request):
@@ -203,6 +207,42 @@ class LoginView(TemplateView):
         
         return context
 
+class Login_for_requested_path(TemplateView):
+    template_name = 'login.html'
+    success_url  = reverse_lazy('home')
+
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(self.success_url)
+
+        return render(request, self.template_name)
+    
+
+    def post(self,request,*args,**kwargs):
+        if request.user.is_authenticated:
+            return redirect(self.success_url)
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request,email = email,password = password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'You are logged in')
+            return redirect(self.get_success_url())
+
+        messages.error(request, 'Invalid email or password')
+        return redirect('login')
+    
+    def get_success_url(self):
+        redirect_to = self.request.GET.get('next', '')
+        if redirect_to:
+            return redirect_to
+        else:
+            return self.success_url
+
+
+
+    
 
 
 class Logout(View):
@@ -226,8 +266,8 @@ def handle_404(request,exception):
     return render(request,'404.html')
 
 
-class UserDashboard(TemplateView):
-    template_name = 'user_dashboard.html'
+class UserAccount(TemplateView):
+    template_name = 'user_account.html'
 
 
     def post(self,request):
@@ -241,12 +281,14 @@ class UserDashboard(TemplateView):
         phone_number = request.POST.get('phone_number')
 
         profile = User.objects.filter(id = user_id).update(first_name = first_name,last_name = last_name,username = username,email = email,phone_number = phone_number)
-        return redirect('user_dashboard')
+        return redirect('user_account')
 
    
     def get_context_data(self,**kwargs):
         context = super(self.__class__,self).get_context_data(**kwargs)
         # context['user'] = User.objects.filter(id = self.request.user.id)
+        
+       
         return context
     
 
@@ -312,12 +354,34 @@ def activate_account(request,uidb64,token):
 
 
 class USerOrders(TemplateView):
-    template_name = 'order.html'
+    template_name = 'orders.html'
 
-
+    @method_decorator(login_required(login_url='request_path_login'))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     def get_context_data(self,**kwargs):
         context = super(USerOrders,self).get_context_data(**kwargs)
+        orders = Orders.objects.filter(user = self.request.user)
+        context['orders'] = orders
+        
         return context
+  
+class User_download(TemplateView):
+    template_name = 'downloads.html'
+
+
+    @method_decorator(login_required(login_url='login'))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+   
+    def get_context_data(self,**kwargs):
+        context = super(User_download,self).get_context_data(**kwargs)
+        order = Orders.objects.filter(user = self.request.user)
+        context['order'] = order
+        return context
+    
+
     
 
 class Basket(TemplateView):
@@ -343,10 +407,108 @@ class Basket(TemplateView):
 
 
 
-class User_address_edit(TemplateView):
+
+    
+class PasswordChange(View):
+
+
+    def post(self,request):
+        current_password = request.POST.get('current_password')
+        if current_password !=self.request.user.password:
+            messages.error(request,"Current password not match")
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password1 !=password2:
+            messages.error(request,"Password does not match")
+        password = make_password(password1)
+        user = User.objects.filter(id = self.request.user.id).update(password =password)
+        if user:
+            messages.success(request,'Password change successfully')
+
+class UseraddressCreate(View):
+
+    def post(self,request):
+        address1 = request.POST.get('address1')
+        address2 = request.POST.get('address2')
+        address_type = request.POST.get("address_type")
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        country = request.POST.get('country')
+        zipcode = request.POST.get('zipcode')
+
+        user_address = UserAddress.objects.create(user = self.request.user,address1 = address1,address2 = address2,city = city,state = state,country = country,pin_code = zipcode,address_type = address_type)
+        user_address.save()
+        messages.success(request,'Address save successfully')
+
+
+# def address_form(request,address_id):
+#     address = get_object_or_404(UserAddress,id = address_id)
+#     context = {
+#         'address' : address
+#     }
+#     return render(request,'user_address_form.html',context)
+    
+    # def post(self,request):
+    #     address_id = request.POST.get('address_id')
+        
+    #     address = UserAddress.objects.filter(id = address_id,user = self.request.user).first()
+    #     if address:
+    #         address.address1 = request.POST.get('address1',address.address1)
+    #         address.address2 = request.POST.get('address2', address.address2)
+    #         address.address_type = request.POST.get('address_type', address.address_type)
+    #         address.country = request.POST.get('country', address.country)
+    #         address.state = request.POST.get('state', address.state)
+    #         address.city = request.POST.get('city', address.city)
+    #         address.pin_code = request.POST.get('zip_code', address.pin_code)
+    #         address.save()
+    #         messages.success(request,'Address chnage successfully')
+
+    #     else:
+    #         messages.error(request, 'Address not found.')
+
+class UserAddressForm(TemplateView):
     template_name = 'user_address_form.html'
 
-
-    def get_context_data(self,**kwargs):
+    def get_context_data(self,address_id,**kwargs):
         context = super(self.__class__,self).get_context_data(**kwargs)
+        context['address'] = get_object_or_404(UserAddress,id = address_id)
         return context
+
+class UserAddressEdit(TemplateView):
+
+    template_name = 'user_address.html'
+
+    
+    def get_context_data(self,**kwargs):
+        context = super(UserAddressEdit,self).get_context_data(**kwargs)
+        address = UserAddress.objects.filter(user = self.request.user)
+        context['address'] = address
+        return context
+
+    def post(self,request):
+        address_id = request.POST.get('address_id')
+        
+        
+        address = UserAddress.objects.filter(id = address_id,user = self.request.user).first()
+        if address:
+            print(request.POST)
+            address.address1 = request.POST.get('address1',address.address1)
+            address.address2 = request.POST.get('address2', address.address2)
+            address.address_type = request.POST.get('address_type', address.address_type)
+            address.country = request.POST.get('country', address.country)
+            address.state = request.POST.get('state', address.state)
+            address.city = request.POST.get('city', address.city)
+            address.pin_code = request.POST.get('pin_code', address.pin_code)
+            address.save()
+            messages.success(request,'Address chnage successfully')
+            return redirect('user_address_edit')
+        else:
+            messages.error(request,'Address not save')
+
+        # else:
+        #     messages.error(request, 'Address not found.')
+        #     return redirect('user_address_form')
+            
+
+
+        

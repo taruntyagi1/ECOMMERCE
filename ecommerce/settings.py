@@ -92,12 +92,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Ecommerce',
         'USER': 'postgres',
-        'PASSWORD': 'root',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
        
     }
 }
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
+
 
 
 # Password validation
