@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'category',
-    'cart'
+    'cart',
+    'orders'
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Ecommerce',
         'USER': 'postgres',
-        'PASSWORD': '123456',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '5432',
        

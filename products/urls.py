@@ -16,6 +16,8 @@ urlpatterns = [
     path('user_dashboard/',UserDashboard.as_view(),name='user_dashboard'),
     path('register/',UserRegister.as_view(),name='register'),
     path('activate/<token>/<uidb64>/',views.activate_account,name='activate'),
-    path('basket/',Basket.as_view(),name='basket')
+    path('basket/',Basket.as_view(),name='basket'),
+    path('filter_name/',FilterName.as_view(),name='filter_name'),
+    path('user_address_form/',User_address_edit.as_view(),name='user_address_form')
     
 ]

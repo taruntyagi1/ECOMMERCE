@@ -3522,6 +3522,12 @@ input:focus {
 .new_product_section .container {
 	width: 1272px !important;
 }
+.product-section .products .card{
+	margin-left: -2px;
+}
+.product-section .container{
+	width: 1300px !important
+}
 
 
 .wrapper {
@@ -4041,7 +4047,7 @@ body.active .wrapper .section {
 }
 
 .user_basket .cart_totals {
-	left: -120px;
+	left: -65px;
     top: 39px;
     position: relative;
     /* width: 300px; */
@@ -4110,3 +4116,62 @@ body.active .wrapper .section {
 	color: rgb(32, 133, 32);
 	font-weight: 500;
 }
+
+.product-section .container .slick-slider{
+	/* display: flex; */
+}
+
+.main-shop .product-card {
+	display: flex;
+  flex-wrap: wrap;
+  gap: 23px;
+  margin-left: 100px;
+}
+
+.main-shop .product-card .card{
+	margin-top: 20px !important;
+	height: 500px !important;
+}
+
+.main-shop .product-card .card .prd_btn_page{
+	margin-left: 155px;
+    margin-top: 8px;
+    padding: 7px 8px 6px 5px;
+}
+
+.main-shop .product-card .card .min_Price{
+	margin-top: 10px;
+}
+
+
+.cat_filters{
+	display: flex;
+    justify-content: center;
+    gap: 43px;
+    top: 387px;
+    margin-top: 33px;
+    /* position: absolute; */
+    align-items: center;
+    left: 456px;
+}
+
+.cat_filters .cat_name{
+	
+}
+
+.cat_filters .cat_name a{
+	padding: 10px;
+	color: white;
+	background-color: red;
+	margin-left: 10px !important;
+}
+
+.elm-btn .cat_btn{
+	background-color: white;
+	color: black;
+	font-weight: 400;
+}
+
+
+
+
