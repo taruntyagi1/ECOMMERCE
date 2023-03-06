@@ -1,0 +1,90 @@
+{% extends 'includes/frame.html' %}
+{% load static %}
+
+
+{% block content %}
+<section class="pt-30 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="dashboard-inner">
+                    <nav>
+                        <ul class="nav-list nav">
+                            {% comment %} <li>
+                                <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="{% static 'icon/dashboard.svg' %}" class="svg" alt=""></span>Dashboard</a>
+                            </li> {% endcomment %}
+                            <li>
+                                <a class="dashboard-nav-item active" id="nav-order"   href="{% url 'user_orders' %}"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id="nav-down"  href="{% url 'user_download' %}"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id="nav-address" href="{% url 'user_address_edit' %}"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id='nav-adetails'  href="{% url 'user_account' %}"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" href="{% url 'logout' %}"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <!-- dashboard content -->
+                <div class="deshboard-content-wrap">
+                    <div class="tab-content dashboad-tab-content">
+            
+
+                        <div class="account-details" >
+                            <form action="#" method="POST">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">First Name</label>
+                                        <input type="text" class="theme-input-style" value="{{user.first_name}}" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Last Name</label>
+                                        <input type="text" class="theme-input-style" placeholder="Last Name" value="{{user.last_name}}" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="">Full Name</label>
+                                        <input type="text" class="theme-input-style" placeholder="Desplay Name" value="{{user.get_full_name}}" required>
+                                        <p>This will be how your name will be displayed in the account section and in reviews</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <!-- password change -->
+                                        <div class="passwrd-change-wrap">
+                                            <h5>Password Change</h5>
+                                            <label for="">Current Password</label>
+                                            <input type="number" class="theme-input-style" placeholder="Current Password" required>
+                                            <label for="">New Password</label>
+                                            <input type="number" class="theme-input-style" placeholder="New Password" required>
+                                            <label for="">Confirm Password</label>
+                                            <input type="number" class="theme-input-style" placeholder="Confirm Password" required>
+                                            <div class="password-change-btn">
+                                                <a href="#" class="go-shop-btn btn btn-fill-type">Submit</a>
+                                            </div>
+                                        </div>
+                                        <!-- End of password change -->
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+

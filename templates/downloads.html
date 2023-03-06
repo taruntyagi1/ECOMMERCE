@@ -1,0 +1,64 @@
+{% extends 'includes/frame.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<section class="pt-30 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- dash board nav-->
+                <div class="dashboard-inner">
+                    <nav>
+                        <ul class="nav-list nav">
+                            {% comment %} <li>
+                                <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="{% static 'icon/dashboard.svg' %}" class="svg" alt=""></span>Dashboard</a>
+                            </li> {% endcomment %}
+                            <li>
+                                <a class="dashboard-nav-item " id="nav-order"   href="{% url 'user_orders' %}"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id="nav-down"  href="{% url 'user_download' %}"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id="nav-address" href="{% url 'user_address_edit' %}"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id='nav-adetails'  href="{% url 'user_account' %}"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" href="{% url 'logout' %}"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- End of dash board nav-->
+            </div>
+            <div class="col-lg-9">
+                <!-- dashboard content -->
+                <div class="deshboard-content-wrap">
+                    <div class="tab-content dashboad-tab-content">
+            
+
+                        <div class="dashboard-tab-downlod" >
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p><span><i class="fa fa-warning"></i></span> No order has been made yet.</p>
+                                <a href="#" class="go-shop-btn btn btn-fill-type">Go Shop</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock content %}

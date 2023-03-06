@@ -4172,6 +4172,10 @@ body.active .wrapper .section {
 	font-weight: 400;
 }
 
-
+.user-address input{
+	color: black !important;
+	font-size: 15px;
+	font-weight: 400;
+}
 
 

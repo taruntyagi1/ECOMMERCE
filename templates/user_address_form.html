@@ -4,6 +4,7 @@
 
 {% block content %}
 
+
  <!-- logout register wrap -->
  <section class="pt-30 pb-100">
     <div class="container">
@@ -17,19 +18,19 @@
                                 <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="{% static 'icon/dashboard.svg' %}" class="svg" alt=""></span>Dashboard</a>
                             </li> {% endcomment %}
                             <li>
-                                <a class="dashboard-nav-item" id="nav-order" data-toggle="tab"  href="#order"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
+                                <a class="dashboard-nav-item active" id="nav-order"   href="{% url 'user_orders' %}"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" id="nav-down" data-toggle="tab" href="#down"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
+                                <a class="dashboard-nav-item" id="nav-down"  href="{% url 'user_download' %}"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" id="nav-address" data-toggle="tab" href="#address"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
+                                <a class="dashboard-nav-item" id="nav-address" href="{% url 'user_address_edit' %}"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" id='nav-adetails' data-toggle="tab" href="#adetails"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
+                                <a class="dashboard-nav-item" id='nav-adetails'  href="#"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" href="logout.html"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
+                                <a class="dashboard-nav-item" href="#"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
                             </li>
                         </ul>
                     </nav>
@@ -42,146 +43,78 @@
                     <div class="tab-content dashboad-tab-content">
                         
 
-                        <div class="tab-pane fade show active" id="order" role="tabpanel" aria-labelledby='nav-order'>
-                            <!-- dashboard order -->
-                            <div class="dashboard-tab-order">
-                                <!-- dashboard order table -->
-                                <table class="dashboard-order-table">
-                                    <tbody>
-                                        <tr>
-                                            <th>Order No</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        <tr>
-                                            <td>#24567</td>
-                                            <td>20 August 2018</td>
-                                            <td>Processing</td>
-                                            <td>$458 .52 <span>(1 Items)</span></td>
-                                            <td><a href="#">View Details</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>#24567</td>
-                                            <td>20 August 2018</td>
-                                            <td>Processing</td>
-                                            <td>$458 .52 <span>(1 Items)</span></td>
-                                            <td><a href="#">View Details</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>#24567</td>
-                                            <td>20 August 2018</td>
-                                            <td>Processing</td>
-                                            <td>$458 .52 <span>(1 Items)</span></td>
-                                            <td><a href="#">View Details</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>#24567</td>
-                                            <td>20 August 2018</td>
-                                            <td>Processing</td>
-                                            <td>$458 .52 <span>(1 Items)</span></td>
-                                            <td><a href="#">View Details</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <!--End of dashboard order table -->
-                            </div>
-                            <!-- End of dashboard order -->
-                        </div>
+                        
 
-                        <div class="tab-pane fade" id="down" role="tabpanel" aria-labelledby='nav-down'>
-                            <!-- Download-->
-                            <div class="dashboard-tab-downlod">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p><span><i class="fa fa-warning"></i></span> No order has been made yet.</p>
-                                    <a href="#" class="go-shop-btn btn btn-fill-type">Go Shop</a>
-                                </div>
-                            </div>
-                            <!-- End of Download -->
-                        </div>
+                        
 
-                        <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby='nav-address'>
-                            <!-- address -->
-                            <div class="address-info">
-                                <p>The following addresses will be used on the checkout page by default.</p>
-                                <div class="address-info-inner clearfix">
-                                    <!-- Billing Information -->
-                                    <div class="billing-information">
-                                        <h5>Billing Information</h5>
-                                        <ul>
-                                            <li>
-                                                4968  Carolina Avenue
-                                            </li>
-                                            <li>Westminster CO</li>
-                                            <li>Colorado</li>
-                                            <li>80030</li>
-                                            <li>970-219-0067</li>
-                                            <li>Australia</li>
-                                            <li><a href="#">Edit</a></li>
-                                        </ul>
-                                    </div>
-                                    <!-- End of Billing Information -->
+                        
 
-                                    <!-- Shipping address -->
-                                    <div class="shipping-address">
-                                        <h5>Shipping address</h5>
-                                        <ul>
-                                            <li>
-                                                4968  Carolina Avenue
-                                            </li>
-                                            <li>Westminster CO</li>
-                                            <li>Colorado</li>
-                                            <li>80030</li>
-                                            <li>970-219-0067</li>
-                                            <li>Australia</li>
-                                            <li><a href="#">Edit</a></li>
-                                        </ul>
-                                    </div>
-                                    <!-- End of Shipping address -->
-                                </div>
-                            </div>
-                            <!-- End of address -->
-                        </div>
-
-                        <div class="tab-pane fade" id="adetails" role="tabpanel" aria-labelledby='nav-adetails'>
+                        
                             <!-- Account details-->
-                            <div class="account-details">
-                                <form action="#" method="POST">
+                            <div class="user-address" >
+                                <form action="{% url 'user_address_edit'  %}" method="post">
+                                    {% csrf_token %}
                                     <div class="row">
+                                        <input type="hidden" name="address_id" value="{{address.id}}">
                                         <div class="col-md-6">
-                                            <input type="text" class="theme-input-style" value="{{user.first_name}}" required>
+                                            <label for="first_name">First Name</label>
+                                            <input type="text" class="theme-input-style" name="first_name" value="{{user.first_name}}" required>
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" class="theme-input-style" placeholder="Last Name" value="{{user.last_name}}" required>
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" class="theme-input-style" name="last_name" placeholder="Last Name" value="{{user.last_name}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="address_type">Address Type</label>
+                                            <input type="text" class="theme-input-style" name="address_type" value="{{address.address_type}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="city">City</label>
+                                            <input type="text" class="theme-input-style" name="city" value="{{address.city}}" required>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="country">Country</label>
+                                            <input type="text" class="theme-input-style" name="country" value="{{address.country}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="state">State</label>
+                                            <input type="text" class="theme-input-style" name="state"  value="{{address.state}}" required>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="pin_code">Zip code</label>
+                                            <input type="text" class="theme-input-style" name="pin_code" value="{{address.pin_code}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="phone_number">Phone Number</label>
+                                            <input type="text" class="theme-input-style" name="phone_number" placeholder="City" value="{{user.phone_number}}" required>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <input type="text" class="theme-input-style" placeholder="Desplay Name" value="{{user.get_full_name}}" required>
-                                            <p>This will be how your name will be displayed in the account section and in reviews</p>
+                                        <div class="col-md-12 mt-4">
+                                            <label for="address1">Address 1</label>
+                                            <input type="text" class="theme-input-style height-10" name="address1" placeholder="Desplay Name" value="{{address.address1}}" required>
+    
+                                            <label class="mt-4" for="address2">Address 2</label>
+                                            <input type="text" class="theme-input-style height-10" name="address2" placeholder="Desplay Name" value="{{address.address2}}" required>
+                                            {% comment %} <p>This will be how your name will be displayed in the account section and in reviews</p> {% endcomment %}
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <!-- password change -->
-                                            <div class="passwrd-change-wrap">
-                                                <h5>Password Change</h5>
-                                                <input type="number" class="theme-input-style" placeholder="Current Password" required>
-                                                <input type="number" class="theme-input-style" placeholder="New Password" required>
-                                                <input type="number" class="theme-input-style" placeholder="Confirm Password" required>
-                                                <div class="password-change-btn">
-                                                    <a href="#" class="go-shop-btn btn btn-fill-type">Submit</a>
-                                                </div>
-                                            </div>
-                                            <!-- End of password change -->
-                                        </div>
-                                    </div>
+                                    <button type="submit" class="btn btn-success mt-4">Save</button>
+    
+                                    
                                 </form>
                             </div>
                             <!-- End of Account details -->
-                        </div>
+                        
                     </div>
                 </div>
                 <!-- End of dashboard content -->
