@@ -37,3 +37,7 @@ server {
         proxy_pass http://unix:/run/gunicorn.sock;
     }
 }
+
+
+
+git_password = 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
