@@ -174,42 +174,50 @@ def add_to_cart(request, product_id):
         return redirect('home')
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+from django.views.decorators.http import require_http_methods
+from django.utils.decorators import method_decorator
+
 class LoginView(TemplateView):
     template_name = 'login.html'
 
-    @method_decorator(unauthenticated)
+    @method_decorator(require_http_methods(["GET", "POST"]))
     def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-    
-    def post(self,request):
         if request.user.is_authenticated:
             return redirect('home')
+
+        self.next_url = request.GET.get('next')
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
-        print(request.POST)
-        user = authenticate(request,email = email,password = password)
+        user = authenticate(request, email=email, password=password)
+
         if user is not None:
-            print("true")
+            login(request, user)
+            messages.success(request, 'You are logged in.')
+            if self.next_url:
+                return redirect(self.next_url)
+            else:
+                return redirect('home')
         else:
-            print('false')
-        if user is not None:
-            login(request,user)
-            messages.success(request,'you are logged in')
-            return redirect('home')
-        else:
-            messages.error(request,'Validation error')
+            messages.error(request, 'Validation error.')
             return redirect('login')
-        
 
-
-    def get_context_data(self,*args,**kwargs):
-        context = super(self.__class__,self).get_context_data(*args,**kwargs)
-        
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['next'] = self.next_url
         return context
+
 
 class Login_for_requested_path(TemplateView):
     template_name = 'login.html'
-    success_url  = reverse_lazy('home')
+    
 
 
     def get(self, request, *args, **kwargs):
