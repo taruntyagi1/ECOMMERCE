@@ -91,3 +91,6 @@ venv/*
 venv*
 
 .flake8
+
+
+pyvenv.cfg
