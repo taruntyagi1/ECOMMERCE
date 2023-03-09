@@ -60,7 +60,7 @@ target/
 
 # Local settings
 local.py
-settings.py
+ecommerce/settings.py
 
 # editors
 *.komodoproject
