@@ -60,6 +60,7 @@ target/
 
 # Local settings
 local.py
+settings.py
 
 # editors
 *.komodoproject
@@ -91,4 +92,4 @@ venv/*
 venv*
 
 .flake8
-pyvenv.cfg
+venv/pyvenv.cfg
