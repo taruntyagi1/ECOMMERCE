@@ -41,18 +41,19 @@
                     <div class="tab-content dashboad-tab-content">
                         <div class="address-info" >
                             <p>The following addresses will be used on the checkout page by default.</p>
+                            <a class="user_address_create" href="{% url 'user_address_create' %}">Add New Address</a>
                             <div class="address-info-inner clearfix">
                                 <!-- Billing Information -->
                                 <div class="billing-information">
-                                    {% for obj in address %}
                                     <h5>Billing Information</h5>
+                                    {% for obj in address %}
                                     <ul>
                                         <li>{{ obj.address1 }} </li>
                                         <li>{{ obj.address_type }}</li>
                                         <li>{{ obj.city }}</li>
                                         <li>{{ obj.state }}</li>
-                                        <li>{{ obj.zip_code }}</li>
-                                        <li>{{ obj.phone_number }}</li>
+                                        <li>{{ obj.pin_code }}</li>
+                                        <li>{{ obj.user.phone_number }}</li>
                                         <li>{{ obj.country }}</li>
                                         <li><a href="{% url 'user_address_form' obj.id %}">Edit</a></li>
                                     </ul>

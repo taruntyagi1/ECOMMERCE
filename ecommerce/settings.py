@@ -27,9 +27,26 @@ SECRET_KEY = 'django-insecure-u62f#h5mn^eobb*%4(x0f*rh5ugf26vdy*g^@w)#9x_prfycjl
 DEBUG = True
 
 
+ALLOWED_HOSTS = ['*', '18.191.197.255', 'www.tarun.com']
 
-ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
+CORS_ORIGIN_ALLOW_ALL = False
 
+CORS_ORIGIN_WHITELIST = (
+    'https://www.sandbox.paypal.com',
+    'https://api2.amplitude.com',
+    
+)
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 # Application definition
 
@@ -46,18 +63,21 @@ INSTALLED_APPS = [
     'products',
     'category',
     'cart',
-    'orders'
+    'orders',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', #add it exactlyhere
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # add it exactlyhere
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -73,7 +93,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'category.context_processor.menu'
+                'category.context_processor.menu',
+
             ],
         },
     },
@@ -95,12 +116,11 @@ DATABASES = {
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
-       
+
     }
 }
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
-
 
 
 # Password validation
@@ -121,6 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY='same-origin-allow-popups'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -138,7 +159,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR , 'static/'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
@@ -154,3 +175,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'tyagitarun113@gmail.com'
 EMAIL_HOST_PASSWORD = 'civvzmgdmajexcal'
+
+
+PAYPAL_ACCESS_TOKEN = 'access_token$sandbox$mf8fc3mhgcykg9sn$8a64084ee68dd7c1b229e50a9860b0d6'

@@ -25,10 +25,10 @@
                                 <a class="dashboard-nav-item" id="nav-address" href="{% url 'user_address_edit' %}"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" id='nav-adetails'  href="#"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
+                                <a class="dashboard-nav-item" id='nav-adetails'  href="{% url 'user_account' %}"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
                             </li>
                             <li>
-                                <a class="dashboard-nav-item" href="#"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
+                                <a class="dashboard-nav-item" href="{% url 'logout' %}"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
                             </li>
                         </ul>
                     </nav>

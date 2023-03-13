@@ -1026,3 +1026,26 @@ $('.edit_btn a').click(function(){
 
 //     })
 // })
+
+
+$(document).ready(function(){
+    $.ajax({
+        url: '/cart_count/',
+        method : 'GET',
+        success: function(response){
+          var cart_count = response.cart_count
+          $('.cart-count').text(cart_count);
+          $('.cart-count').data('cart-count', cart_count);
+            
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.statusText);
+        }
+
+    })
+})
+
+
+
+   
+   

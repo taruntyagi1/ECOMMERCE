@@ -4177,5 +4177,24 @@ body.active .wrapper .section {
 	font-size: 15px;
 	font-weight: 400;
 }
+.billing-information{
+	display: flex;
+}
 
+.billing-information ul{
+	display: flex;
+    flex-direction: column;
+    position: relative;
+    left: -166px;
+    margin-left: 30px;
+    top: 70px;
+}
 
+.address-info .user_address_create{
+	position: relative;
+    left: 710px;
+    top: -24px;
+    padding: 10px;
+    color: white;
+    background: #3c3c3c;
+}

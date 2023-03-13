@@ -67,7 +67,7 @@
                                             <!-- product thumbnail -->
                                             <td class="product-thumbnail">
                                                 <div class="product-details">
-                                                    <a href="#" class="porduct-image-wrap">
+                                                    <a href="{% url 'single_product' obj.product.id %}" class="porduct-image-wrap">
                                                         <img src="{{obj.product.image.url}}" alt="">
                                                     </a>
                                                     <a class="prd-title" href="#">{{obj.product.title}}</a>
@@ -118,7 +118,7 @@
                                                 <!-- cart shoping button  -->
                                                 <div class="cart-shoping-button">
                                                     
-                                                    <a href="#" class="update-cart-btn btn btn-fill-type">Continue Shopping</a>
+                                                    <a href="{% url 'shop' %}" class="update-cart-btn btn btn-fill-type">Continue Shopping</a>
                                                 </div>
                                                 <!-- End of cart shoping button  -->
 
@@ -154,7 +154,7 @@
                                                     </tbody>
                                                 </table>
                                                 <div class="wc-proceed-to-checkout">
-                                                    <a href="#" class="update-cart-btn btn btn-fill-type" >Proceed To Checkout</a>
+                                                    <a href="{% url 'payment' %}" class="update-cart-btn btn btn-fill-type" >Proceed To Checkout</a>
                                                 </div>
                                             </div>
                                             <!-- End of shop total wrap -->
@@ -199,6 +199,8 @@
         display: none;
     }
 </style>
+
+
 
 
 

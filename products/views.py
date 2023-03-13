@@ -18,7 +18,9 @@ from accounts.decorator import unauthenticated
 from django.utils.decorators  import method_decorator
 from django.contrib.auth.decorators import login_required,user_passes_test
 from orders.models import*
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
+from cart.context_processor import *
+from django.http  import JsonResponse
 
     
     
@@ -110,6 +112,7 @@ class FilterName(View):
 
 
 def single_product_detail(request,product_id):
+    
     product = get_object_or_404(Product,id = product_id)
     image = Product_images.objects.filter(product = product,is_active = True)
     variant = Variant.objects.filter(product = product)
@@ -161,18 +164,21 @@ def add_to_cart(request, product_id):
                 cart=cart,
                 product=product,
                 quantity=1,
-                price=product.min_price,
+                price=product.min_price ,
             )
             for item in product_variant:
                 cart_item.variant.add(item)
+                cart_item.price = cart_item.price + item.min_price
+                cart_item.save()
+                
+                
         else:
             # If a cart item already exists, update its quantity and price
             cart_item.quantity += 1
             cart_item.price = cart_item.product.min_price * cart_item.quantity
             cart_item.save()
 
-        return redirect('home')
-
+        return redirect(reverse('single_product', args=[product.id]))
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -422,20 +428,26 @@ class PasswordChange(View):
 
     def post(self,request):
         current_password = request.POST.get('current_password')
-        if current_password !=self.request.user.password:
-            messages.error(request,"Current password not match")
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
-        if password1 !=password2:
-            messages.error(request,"Password does not match")
-        password = make_password(password1)
-        user = User.objects.filter(id = self.request.user.id).update(password =password)
-        if user:
-            messages.success(request,'Password change successfully')
+        
+        if request.user.check_password(current_password):
+            if password1 == password2:
+                request.user.set_password(password1)
+                request.user.save()
+                messages.success(request, 'Your password was successfully updated!')
+                
+            else:
+                messages.error(request, "The passwords you entered didn't match.")
+        else:
+            messages.error(request, "Your current password is incorrect.")
+        return redirect('user_account')
 
-class UseraddressCreate(View):
+class UseraddressCreate(TemplateView):
+    template_name = 'user_address_create.html'
 
     def post(self,request):
+        print(request.POST)
         address1 = request.POST.get('address1')
         address2 = request.POST.get('address2')
         address_type = request.POST.get("address_type")
@@ -447,6 +459,13 @@ class UseraddressCreate(View):
         user_address = UserAddress.objects.create(user = self.request.user,address1 = address1,address2 = address2,city = city,state = state,country = country,pin_code = zipcode,address_type = address_type)
         user_address.save()
         messages.success(request,'Address save successfully')
+        return redirect('user_address_edit')
+    
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        address = UserAddress.objects.filter(user = self.request.user.id)
+        
+        return context
 
 
 # def address_form(request,address_id):
@@ -520,3 +539,21 @@ class UserAddressEdit(TemplateView):
 
 
         
+def cart_count(request):
+    if request.user.is_authenticated:
+        user = User.objects.get(id = request.user.id)
+        cart = Cart.objects.get(user = user)
+        cart_item = CartItems.objects.filter(user = user,cart = cart)
+        count = 0
+        count = cart_item.count()
+    else:
+        count = 0
+    return JsonResponse({'cart_count' : count})
+
+
+class Payment(TemplateView):
+    template_name = "payment.html"
+
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
