@@ -1,0 +1,18 @@
+{% extends 'includes/frame.html' %}
+{% load static %}
+
+{% block content %}
+<form id="payment-form" method="POST" action="{% url 'checkout' %}">
+    {% csrf_token %}
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price">
+  
+    <label for="payment_choice">Payment Choice:</label>
+    <input type="text" id="payment_choice" name="payment_choice">
+  
+    <button type="submit">Pay with Stripe</button>
+  </form>
+
+{% endblock content %}
+
+

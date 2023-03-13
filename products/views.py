@@ -398,7 +398,7 @@ class Basket(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        cart_items = CartItems.objects.filter(user=self.request.user)
+        cart_items = CartItems.objects.filter(user=self.request.user.id)
         cart_item_price= 0
         for items in cart_items:
         
