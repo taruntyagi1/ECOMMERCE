@@ -25,6 +25,9 @@ urlpatterns = [
     path('user_download/',User_download.as_view(),name='user_download'),
     path('user_address_form/<int:address_id>/',UserAddressForm.as_view(),name='user_address_form'),
     # path('user_address_form/<int:address_id>/',views.address_form,name='user_address_form')
+    path('increase/',IncreaseQuantity.as_view(),name='increase'),
+    path('decrease/',DecreaseQuantity.as_view(),name='decrease')
+    
    
     
 ]

@@ -83,7 +83,7 @@
                                             <td>
                                                 <div class="product-quantity">
                                                     
-                                                    <a href=""><span><i class="fa-solid fa-plus"></i></span></a><input type="text" value="{{obj.quantity}}" class="product-quantity-list"><a href=""><span><i class="fa-solid fa-minus"></i></span></a>
+                                                    <a href="{% url 'decrease' %}"><span><i class="fa-solid fa-minus"></i></span></a><input type="text" value="{{obj.quantity}}" class="product-quantity-list"><a href="{% url 'increase' %}"><span><i class="fa-solid fa-plus"></i></span></a>
                                                    
                                                 </div>
                                             </td>
@@ -124,8 +124,11 @@
 
                                                 <!-- coupon -->
                                                 <div class="coupon">
-                                                    <input type="text" class="theme-input-style" placeholder="Coupon Code" required>
-                                                    <button type="submit" class="btn">Apply Coupon</button>
+                                                   <form action="{% url 'basket' %}" method="post">
+                                                    {% csrf_token %}
+                                                        <input type="text" name="voucher_code" class="theme-input-style" placeholder="Coupon Code" required>
+                                                        <button type="submit" class="btn">Apply Coupon</button>
+                                                    </form>
                                                 </div>
                                                 <!-- End of coupon -->
                                             </div>

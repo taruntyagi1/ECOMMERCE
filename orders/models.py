@@ -26,8 +26,7 @@ class Payments(models.Model):
         verbose_name_plural = "Payment"
 
 
-    def __str__(self):
-        return self.transaction_id
+    
 
 class Orders(models.Model):
     

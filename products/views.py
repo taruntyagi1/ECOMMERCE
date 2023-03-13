@@ -19,6 +19,7 @@ from django.utils.decorators  import method_decorator
 from django.contrib.auth.decorators import login_required,user_passes_test
 from orders.models import*
 from django.urls import reverse_lazy
+from cart.context_processor import get_cart_count
 
     
     
@@ -57,6 +58,11 @@ class Homepage(TemplateView):
 
 def faq(request):
     return render(request,'faqs.html')
+
+
+
+
+    
 
 
 def shop(request):
@@ -395,14 +401,51 @@ class User_download(TemplateView):
 class Basket(TemplateView):
     template_name = 'basket.html'
 
+
+    def post(self, request):
+        code = request.POST.get('voucher_code')
+        user_id = self.request.user.id
+        user = User.objects.get(id=user_id)
+        cart = Cart.objects.get(user=user)
+        cart_items = CartItems.objects.get(user=user, cart=cart)
+
+        try:
+            voucher = Voucher.objects.get(voucher_code=code)
+            print(voucher)
+        except Voucher.DoesNotExist:
+            messages.error(request, 'voucher does not exist')
+            return redirect('basket')
+
+        
+        if int(cart_items.get_cart_total()) < voucher.min_value:
+                messages.error(request, f"Minimum spend is {voucher.min_value} ")
+
+                return redirect('basket')
+
+        if voucher.discount_type == 'Fixed':
+            
+            cart_items.price = max(cart_items.price - voucher.discount_value, 0)
+            cart_items.save()
+            voucher.is_active = False
+            voucher.save()
+
+        if voucher.discount_type == 'Percentage':
+            cart_items.price = max(cart_items.price - voucher.discount_value,0)
+            cart_items.save()
+
+        return redirect('basket')
+
+            
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        cart_items = CartItems.objects.filter(user=self.request.user)
+        cart_items = CartItems.objects.filter(user=self.request.user.id)
         cart_item_price= 0
         for items in cart_items:
         
-            cart_item_price += items.price
+            cart_item_price = items.get_cart_total()
         # print(f"Number of cart items: {len(cart_items)}")
         # for item in cart_items:
         #     print(f"Product: {item.product.title}")
@@ -411,6 +454,7 @@ class Basket(TemplateView):
         #         print(f"Variant value: {variant.variant_value}")
         context['cart'] = cart_items
         context ['total_price'] = cart_item_price
+        
         return context
 
 
@@ -520,3 +564,53 @@ class UserAddressEdit(TemplateView):
 
 
         
+class Checkout(TemplateView):
+    template_name = 'payment.html'
+
+    def psot(self,request):
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+        cart_item = CartItems.objects.get(cart = cart,user = user)
+        order = Orders.objects.get(user = user)
+        
+
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        return context
+    
+
+class IncreaseQuantity(View):
+
+    def get(self,request):
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+        cart_item = CartItems.objects.get(cart = cart,user = user)
+        cart_item.quantity +=1
+        cart_item.price = cart_item.quantity *cart_item.product.min_price
+        cart_item.save()
+        messages.success(request,'Quantity increases')
+        return redirect('basket')
+    
+class DecreaseQuantity(View):
+
+    def get(self,request):
+
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+        cart_item = CartItems.objects.get(cart = cart,user = user)
+        try:
+            cart_item.quantity -= 1
+            cart_item.price = cart_item.price - cart_item.product.min_price
+            if cart_item.quantity <=0:
+                cart_item.delete()
+                return redirect('basket')
+            cart_item.save()
+            
+            messages.success(request,'Quantity Decrease')
+            return redirect('basket')
+        except CartItems.DoesNotExist:
+            messages.error(request,"Cart item not found")
+        return redirect('basket')
