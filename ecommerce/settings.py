@@ -154,4 +154,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'tyagitarun113@gmail.com'
-EMAIL_HOST_PASSWORD = 'civvzmgdmajexcal'
+EMAIL_HOST_PASSWORD = 'ingtocjbvjlkdwit'
+
+RZP_KEY_ID = 'rzp_test_MJjlTAaVHnpUJ9'
+RZP_KEY_SECRET = 'MCFgOQFHTS5MtuoEMATX293B'

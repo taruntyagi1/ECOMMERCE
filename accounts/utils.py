@@ -31,7 +31,7 @@ def send_order_receive_email(request,user):
     from_email = settings.DEFAULT_FROM_EMAIL
     current_site = get_current_site(request)
     email_subject = "Order Receive"
-    order_item = OrderItem.objects.get(user = request.user.id)
+    order_item = OrderItem.objects.filter(user = request.user.id)
     message = render_to_string('order_receive.html',{
         'user' : user,
         'domain' : current_site,
