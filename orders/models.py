@@ -19,7 +19,7 @@ class Payments(models.Model):
     transaction_id = models.CharField(max_length=200,null = True)
     payment_method = models.CharField(max_length=200,null = True)
     amount = models.CharField(max_length=200,null = True)
-    payment_choice = models.CharField(max_length=200,choices=PAYMENT,null = True)
+    
 
 
     class Meta:
@@ -67,7 +67,7 @@ class OrderItem(models.Model):
     payment = models.ForeignKey(Payments,on_delete=models.SET_NULL,null = True)
     order = models.ForeignKey(Orders,on_delete=models.SET_NULL,null = True)
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null = True)
-    variant = models.ForeignKey(Variant,on_delete=models.SET_NULL,null = True)
+    variant = models.ManyToManyField(Variant,null = True)
     quantity = models.IntegerField(null=True,blank = True)
     price = models.FloatField()
     amount = models.FloatField()

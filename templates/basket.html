@@ -82,8 +82,9 @@
                                             <!-- product quantity -->
                                             <td>
                                                 <div class="product-quantity">
+                                                    <input type="hidden" name="product_id" value="{{obj.product.id}}">
                                                     
-                                                    <a href=""><span><i class="fa-solid fa-plus"></i></span></a><input type="text" value="{{obj.quantity}}" class="product-quantity-list"><a href=""><span><i class="fa-solid fa-minus"></i></span></a>
+                                                    <a href="{% url 'decrease' obj.product.id %}"><span><i class="fa-solid fa-minus"></i></span></a><input type="text" value="{{obj.quantity}}" class="product-quantity-list"><a href="{% url 'increase' obj.product.id %}"><span><i class="fa-solid fa-plus"></i></span></a>
                                                    
                                                 </div>
                                             </td>

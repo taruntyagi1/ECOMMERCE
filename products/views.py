@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from accounts.utils import send_verification_email
+from accounts.utils import send_verification_email,send_order_receive_email
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes,force_str
 from django.contrib.auth.tokens import default_token_generator
@@ -21,7 +21,10 @@ from orders.models import*
 from django.urls import reverse_lazy,reverse
 from cart.context_processor import *
 from django.http  import JsonResponse
-
+import razorpay
+from django.conf import settings
+from datetime import datetime
+from random import randint
     
     
         
@@ -168,8 +171,7 @@ def add_to_cart(request, product_id):
             )
             for item in product_variant:
                 cart_item.variant.add(item)
-                cart_item.price = cart_item.price + item.min_price
-                cart_item.save()
+                
                 
                 
         else:
@@ -554,6 +556,76 @@ def cart_count(request):
 class Payment(TemplateView):
     template_name = "payment.html"
 
-    def get_context_data(self,**kwargs):
-        context = super(self.__class__,self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = Cart.objects.get(user=self.request.user.id)
+        cart_items = CartItems.objects.filter(cart=cart, user=self.request.user.id)
+        total_price = sum(item.price for item in cart_items)
+          # Convert to paisa
+        client = razorpay.Client(auth=(settings.RZP_KEY_ID, settings.RZP_KEY_SECRET))
+        order_amount = int(total_price)*100  #9900
+        order_currency = 'INR'
+        order_receipt = 'order_rcptid_11'
+        payment = client.order.create(dict(amount= order_amount, currency=order_currency, receipt=order_receipt, payment_capture=1))
+        print(payment)
+        random_number = str(randint(100000, 999999)) +  datetime.now().strftime('%Y%m%d')
+        user_payment = Payments.objects.create(user = self.request.user,transaction_id = random_number, payment_method = "Razorpay", amount = total_price)
+        user_payment.save()
+        for items in cart_items:
+            order_item = OrderItem.objects.create(
+                user = self.request.user,payment = user_payment,product = items.product,quantity = items.quantity,price = items.price,amount = items.product.min_price)
+            order_item.save()
+            variants = items.variant.all()
+
+# set the variants for the order item
+            order_item.variant.set(variants)
+            send_order_receive_email(request = self.request,user=self.request.user)
+
+        
+        
+        
+        context = {'cart': cart_items, 'payment': payment,}
+        context['amount'] = order_amount
+        context['user'] = self.request.user
         return context
+    
+
+
+class IncreaseQuantity(View):
+
+    def get(self,request,product_id):
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+        
+        product = Product.objects.get(id = product_id)
+        cart_item = CartItems.objects.get(cart = cart,user = user,product = product)
+        cart_item.quantity +=1
+        cart_item.price = cart_item.product.min_price * cart_item.quantity
+        cart_item.save()
+        messages.success(request,'Quantity increases')
+        return redirect('basket')
+    
+class DecreaseQuantity(View):
+
+    def get(self,request,product_id):
+
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+       
+        product = Product.objects.get(id = product_id)
+        cart_item = CartItems.objects.get(cart = cart,user = user,product = product)
+        try:
+            cart_item.quantity -= 1
+            cart_item.price = cart_item.price - cart_item.product.min_price
+            if cart_item.quantity <=0:
+                cart_item.delete()
+                return redirect('basket')
+            cart_item.save()
+            
+            messages.success(request,'Quantity Decrease')
+            return redirect('basket')
+        except CartItems.DoesNotExist:
+            messages.error(request,"Cart item not found")
+        return redirect('basket')

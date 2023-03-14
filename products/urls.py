@@ -28,7 +28,9 @@ urlpatterns = [
     path('cart_count/',views.cart_count,name='cart_count'),
     path('payment/',Payment.as_view(),name='payment'),
     path('password_change/',PasswordChange.as_view(),name='password_change'),
-    path('user_address_create/',UseraddressCreate.as_view(),name='user_address_create')
+    path('user_address_create/',UseraddressCreate.as_view(),name='user_address_create'),
+    path('increase/<int:product_id>/',IncreaseQuantity.as_view(),name='increase'),
+    path('decrease/<int:product_id>/',DecreaseQuantity.as_view(),name='decrease'),
    
     
 ]
