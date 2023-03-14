@@ -10,11 +10,11 @@ class Order(admin.ModelAdmin):
 
 @admin.register(Payments)
 class Payment(admin.ModelAdmin):
-    list_display = ['user','transaction_id','payment_method','amount','payment_choice']
+    list_display = ['user','transaction_id','payment_method','amount']
 
 @admin.register(OrderItem)
 class OrderItem(admin.ModelAdmin):
-    list_display = ['user','payment','order','product','variant','quantity','price']
+    list_display = ['user','payment','order','product','quantity','price']
 
 
     

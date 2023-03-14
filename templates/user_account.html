@@ -39,7 +39,7 @@
             
 
                         <div class="account-details" >
-                            <form action="#" method="POST">
+                           
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="">First Name</label>
@@ -63,20 +63,23 @@
                                         <!-- password change -->
                                         <div class="passwrd-change-wrap">
                                             <h5>Password Change</h5>
-                                            <label for="">Current Password</label>
-                                            <input type="number" class="theme-input-style" placeholder="Current Password" required>
-                                            <label for="">New Password</label>
-                                            <input type="number" class="theme-input-style" placeholder="New Password" required>
-                                            <label for="">Confirm Password</label>
-                                            <input type="number" class="theme-input-style" placeholder="Confirm Password" required>
-                                            <div class="password-change-btn">
-                                                <a href="#" class="go-shop-btn btn btn-fill-type">Submit</a>
-                                            </div>
+                                            <form action="{% url 'password_change' %}" method="post">
+                                                {% csrf_token %}
+                                                <label for="current_password">Current Password</label>
+                                                <input type="text" name="current_password" class="theme-input-style" placeholder="Current Password" required>
+                                                <label for="password1">New Password</label>
+                                                <input type="text" name="password1" class="theme-input-style" placeholder="New Password" required>
+                                                <label for="password2">Confirm Password</label>
+                                                <input type="text" name="password2" class="theme-input-style" placeholder="Confirm Password" required>
+                                                <div class="password-change-btn">
+                                                    <button  type="submit" class="go-shop-btn btn btn-fill-type">Submit</button>
+                                                </div>
+                                            </form>
                                         </div>
                                         <!-- End of password change -->
                                     </div>
                                 </div>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>

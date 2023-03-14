@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from accounts.utils import send_verification_email
+from accounts.utils import send_verification_email,send_order_receive_email
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes,force_str
 from django.contrib.auth.tokens import default_token_generator
@@ -18,9 +18,13 @@ from accounts.decorator import unauthenticated
 from django.utils.decorators  import method_decorator
 from django.contrib.auth.decorators import login_required,user_passes_test
 from orders.models import*
-from django.urls import reverse_lazy
-from cart.context_processor import get_cart_count
-
+from django.urls import reverse_lazy,reverse
+from cart.context_processor import *
+from django.http  import JsonResponse
+import razorpay
+from django.conf import settings
+from datetime import datetime
+from random import randint
     
     
         
@@ -116,6 +120,7 @@ class FilterName(View):
 
 
 def single_product_detail(request,product_id):
+    
     product = get_object_or_404(Product,id = product_id)
     image = Product_images.objects.filter(product = product,is_active = True)
     variant = Variant.objects.filter(product = product)
@@ -167,18 +172,20 @@ def add_to_cart(request, product_id):
                 cart=cart,
                 product=product,
                 quantity=1,
-                price=product.min_price,
+                price=product.min_price ,
             )
             for item in product_variant:
                 cart_item.variant.add(item)
+                
+                
+                
         else:
             # If a cart item already exists, update its quantity and price
             cart_item.quantity += 1
             cart_item.price = cart_item.product.min_price * cart_item.quantity
             cart_item.save()
 
-        return redirect('home')
-
+        return redirect(reverse('single_product', args=[product.id]))
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -466,20 +473,26 @@ class PasswordChange(View):
 
     def post(self,request):
         current_password = request.POST.get('current_password')
-        if current_password !=self.request.user.password:
-            messages.error(request,"Current password not match")
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
-        if password1 !=password2:
-            messages.error(request,"Password does not match")
-        password = make_password(password1)
-        user = User.objects.filter(id = self.request.user.id).update(password =password)
-        if user:
-            messages.success(request,'Password change successfully')
+        
+        if request.user.check_password(current_password):
+            if password1 == password2:
+                request.user.set_password(password1)
+                request.user.save()
+                messages.success(request, 'Your password was successfully updated!')
+                
+            else:
+                messages.error(request, "The passwords you entered didn't match.")
+        else:
+            messages.error(request, "Your current password is incorrect.")
+        return redirect('user_account')
 
-class UseraddressCreate(View):
+class UseraddressCreate(TemplateView):
+    template_name = 'user_address_create.html'
 
     def post(self,request):
+        print(request.POST)
         address1 = request.POST.get('address1')
         address2 = request.POST.get('address2')
         address_type = request.POST.get("address_type")
@@ -491,6 +504,13 @@ class UseraddressCreate(View):
         user_address = UserAddress.objects.create(user = self.request.user,address1 = address1,address2 = address2,city = city,state = state,country = country,pin_code = zipcode,address_type = address_type)
         user_address.save()
         messages.success(request,'Address save successfully')
+        return redirect('user_address_edit')
+    
+    def get_context_data(self,**kwargs):
+        context = super(self.__class__,self).get_context_data(**kwargs)
+        address = UserAddress.objects.filter(user = self.request.user.id)
+        
+        return context
 
 
 # def address_form(request,address_id):
@@ -564,43 +584,81 @@ class UserAddressEdit(TemplateView):
 
 
         
-class Checkout(TemplateView):
-    template_name = 'payment.html'
-
-    def psot(self,request):
-        user_id = self.request.user.id
-        user = User.objects.get(id = user_id)
+def cart_count(request):
+    if request.user.is_authenticated:
+        user = User.objects.get(id = request.user.id)
         cart = Cart.objects.get(user = user)
-        cart_item = CartItems.objects.get(cart = cart,user = user)
-        order = Orders.objects.get(user = user)
-        
+        cart_item = CartItems.objects.filter(user = user,cart = cart)
+        count = 0
+        count = cart_item.count()
+    else:
+        count = 0
+    return JsonResponse({'cart_count' : count})
 
-    def get_context_data(self,**kwargs):
-        context = super(self.__class__,self).get_context_data(**kwargs)
+
+class Payment(TemplateView):
+    template_name = "payment.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = Cart.objects.get(user=self.request.user.id)
+        cart_items = CartItems.objects.filter(cart=cart, user=self.request.user.id)
+        total_price = sum(item.price for item in cart_items)
+          # Convert to paisa
+        client = razorpay.Client(auth=(settings.RZP_KEY_ID, settings.RZP_KEY_SECRET))
+        order_amount = int(total_price)*100  #9900
+        order_currency = 'INR'
+        order_receipt = 'order_rcptid_11'
+        payment = client.order.create(dict(amount= order_amount, currency=order_currency, receipt=order_receipt, payment_capture=1))
+        print(payment)
+        random_number = str(randint(100000, 999999)) +  datetime.now().strftime('%Y%m%d')
+        user_payment = Payments.objects.create(user = self.request.user,transaction_id = random_number, payment_method = "Razorpay", amount = total_price)
+        user_payment.save()
+        for items in cart_items:
+            order_item = OrderItem.objects.create(
+                user = self.request.user,payment = user_payment,product = items.product,quantity = items.quantity,price = items.price,amount = items.product.min_price)
+            order_item.save()
+            variants = items.variant.all()
+
+# set the variants for the order item
+            order_item.variant.set(variants)
+            send_order_receive_email(request = self.request,user=self.request.user)
+
+        
+        
+        
+        context = {'cart': cart_items, 'payment': payment,}
+        context['amount'] = order_amount
+        context['user'] = self.request.user
         return context
     
 
+
 class IncreaseQuantity(View):
 
-    def get(self,request):
+    def get(self,request,product_id):
         user_id = self.request.user.id
         user = User.objects.get(id = user_id)
         cart = Cart.objects.get(user = user)
-        cart_item = CartItems.objects.get(cart = cart,user = user)
+        
+        product = Product.objects.get(id = product_id)
+        cart_item = CartItems.objects.get(cart = cart,user = user,product = product)
         cart_item.quantity +=1
-        cart_item.price = cart_item.quantity *cart_item.product.min_price
+        cart_item.price = cart_item.product.min_price * cart_item.quantity
         cart_item.save()
         messages.success(request,'Quantity increases')
         return redirect('basket')
     
 class DecreaseQuantity(View):
 
-    def get(self,request):
+    def get(self,request,product_id):
 
         user_id = self.request.user.id
         user = User.objects.get(id = user_id)
         cart = Cart.objects.get(user = user)
-        cart_item = CartItems.objects.get(cart = cart,user = user)
+       
+        product = Product.objects.get(id = product_id)
+        cart_item = CartItems.objects.get(cart = cart,user = user,product = product)
         try:
             cart_item.quantity -= 1
             cart_item.price = cart_item.price - cart_item.product.min_price

@@ -23,6 +23,9 @@ class CartItems(models.Model):
     updated_at  = models.DateTimeField(auto_now=True)
     discount_amount = models.CharField(max_length=1000,null = True,blank = True)
 
+    
+            
+
 
     def get_cart_total(self):
         user_id = self.user.id

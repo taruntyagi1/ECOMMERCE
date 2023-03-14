@@ -24,10 +24,13 @@ urlpatterns = [
     path('user_orders/',USerOrders.as_view(),name='user_orders'),
     path('user_download/',User_download.as_view(),name='user_download'),
     path('user_address_form/<int:address_id>/',UserAddressForm.as_view(),name='user_address_form'),
-    # path('user_address_form/<int:address_id>/',views.address_form,name='user_address_form')
-    path('increase/',IncreaseQuantity.as_view(),name='increase'),
-    path('decrease/',DecreaseQuantity.as_view(),name='decrease')
-    
+    # path('user_address_form/<int:address_id>/',views.address_form,name='user_address_form'),
+    path('cart_count/',views.cart_count,name='cart_count'),
+    path('payment/',Payment.as_view(),name='payment'),
+    path('password_change/',PasswordChange.as_view(),name='password_change'),
+    path('user_address_create/',UseraddressCreate.as_view(),name='user_address_create'),
+    path('increase/<int:product_id>/',IncreaseQuantity.as_view(),name='increase'),
+    path('decrease/<int:product_id>/',DecreaseQuantity.as_view(),name='decrease'),
    
     
 ]

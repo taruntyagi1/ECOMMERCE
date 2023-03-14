@@ -88,3 +88,10 @@ DATABASES = {
        
     }
 }
+
+
+
+    location /media/ {
+        autoindex on;
+        alias /home/ubuntu/Myprojects/ECOMMERCE/media/;
+    }

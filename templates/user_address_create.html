@@ -1,0 +1,139 @@
+{% extends 'includes/frame.html' %}
+{% load static %}
+
+{% block content %}
+
+
+ <!-- logout register wrap -->
+ <section class="pt-30 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <!-- dash board nav-->
+                <div class="dashboard-inner">
+                    <nav>
+                        <ul class="nav-list nav">
+                            {% comment %} <li>
+                                <a class="dashboard-nav-item active" id="nav-dasboard" data-toggle="tab"  href="#dashboard"><span><img src="{% static 'icon/dashboard.svg' %}" class="svg" alt=""></span>Dashboard</a>
+                            </li> {% endcomment %}
+                            <li>
+                                <a class="dashboard-nav-item active" id="nav-order"   href="{% url 'user_orders' %}"><span><img src="{% static 'icon/order.svg' %}" class="svg" alt=""></span>Orders</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id="nav-down"  href="{% url 'user_download' %}"><span><img src="{% static 'icon/download.svg' %}" class="svg" alt=""></span>Downloads</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id="nav-address" href="{% url 'user_address_edit' %}"><span><img src="{% static 'icon/address.svg' %}" class="svg" alt=""></span>Address</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" id='nav-adetails'  href="{% url 'user_account' %}"><span><img src="{% static 'icon/account3.svg' %}" class="svg" alt=""></span>Account Details</a>
+                            </li>
+                            <li>
+                                <a class="dashboard-nav-item" href="{% url 'logout' %}"><span><img src="{% static 'icon/logout.svg' %}" class="svg" alt=""></span>Log Out</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- End of dash board nav-->
+            </div>
+            <div class="col-lg-9">
+                <!-- dashboard content -->
+                <div class="deshboard-content-wrap">
+                    <div class="tab-content dashboad-tab-content">
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+                            <!-- Account details-->
+                            <div class="user-address" >
+                                <form action="{% url 'user_address_create'  %}" method="post">
+                                    {% csrf_token %}
+                                    {% comment %} <div class="row">
+                                        
+                                        <div class="col-md-6">
+                                            <label for="first_name">First Name</label>
+                                            <input type="text" class="theme-input-style" name="first_name" value="{{user.first_name}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" class="theme-input-style" name="last_name" placeholder="Last Name" value="{{user.last_name}}" required>
+                                        </div>
+                                    </div> {% endcomment %}
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="address_type">Address Type</label>
+                                            {% comment %} <input type="text" class="theme-input-style" name="address_type"  required> {% endcomment %}
+                                            <select name="address_type" id="">
+                                               <option value="Home Address">Home Address</option>
+                                               <option value="Office Address">Office Address</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="city">City</label>
+                                            <input type="text" class="theme-input-style" name="city"  required>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="country">Country</label>
+                                            <input type="text" class="theme-input-style" name="country"  required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="state">State</label>
+                                            <input type="text" class="theme-input-style" name="state"  required>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="pin_code">Zip code</label>
+                                            <input type="text" class="theme-input-style" name="pin_code"  required>
+                                        </div>
+                                        {% comment %} <div class="col-md-6">
+                                            <label for="phone_number">Phone Number</label>
+                                            <input type="text" class="theme-input-style" name="phone_number" placeholder="City"  required>
+                                        </div> {% endcomment %}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mt-4">
+                                            <label for="address1">Address 1</label>
+                                            <input type="text" class="theme-input-style height-10" name="address1" placeholder="Desplay Name"  required>
+    
+                                            <label class="mt-4" for="address2">Address 2</label>
+                                            <input type="text" class="theme-input-style height-10" name="address2" placeholder="Desplay Name"  required>
+                                            {% comment %} <p>This will be how your name will be displayed in the account section and in reviews</p> {% endcomment %}
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success mt-4">Save</button>
+    
+                                    
+                                </form>
+                            </div>
+                            <!-- End of Account details -->
+                        
+                    </div>
+                </div>
+                <!-- End of dashboard content -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of logout register wrap -->
+
+
+
+<style>
+    footer{
+        display: none;
+    }
+</style>
+{% endblock content %}
+
+
