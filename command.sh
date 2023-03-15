@@ -42,6 +42,7 @@ server {
 
 
 git_password = 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
+new_git_token = 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
 
 
 /*gunicorn*/
