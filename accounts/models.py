@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
 
+
 # Create your models here.
 
 
@@ -80,6 +81,8 @@ class User(AbstractBaseUser):
     def get_full_name(self):
         full_name =  self.first_name.capitalize() + " " + self.last_name.capitalize()
         return full_name
+    
+   
 
 ADDRESS_CHOICE = (
     ('Home Address', 'Home Address'),

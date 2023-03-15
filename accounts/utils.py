@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.urls import reverse
+from orders.models import *
 
 
 
@@ -20,6 +21,22 @@ def send_verification_email(request,user):
         'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
         'token' : default_token_generator.make_token(user),
         'password' : user.password
+    })
+    to_email = user.email
+    email = EmailMessage(email_subject,message,from_email,to=[to_email])
+    email.send()
+
+
+def send_order_receive_email(request,user):
+    from_email = settings.DEFAULT_FROM_EMAIL
+    current_site = get_current_site(request)
+    email_subject = "Order Receive"
+    order_item = OrderItem.objects.filter(user = request.user.id)
+    message = render_to_string('order_receive.html',{
+        'user' : user,
+        'domain' : current_site,
+        'order_item' : order_item
+        
     })
     to_email = user.email
     email = EmailMessage(email_subject,message,from_email,to=[to_email])

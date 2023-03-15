@@ -4198,3 +4198,8 @@ body.active .wrapper .section {
     color: white;
     background: #3c3c3c;
 }
+
+.checkout .prd_img{
+	width : 100px;
+	height: 100px;
+}

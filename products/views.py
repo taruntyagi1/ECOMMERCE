@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.views import View
 from django.contrib.auth.hashers import make_password
-from accounts.utils import send_verification_email
+from accounts.utils import send_verification_email,send_order_receive_email
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes,force_str
 from django.contrib.auth.tokens import default_token_generator
@@ -21,7 +21,11 @@ from orders.models import*
 from django.urls import reverse_lazy,reverse
 from cart.context_processor import *
 from django.http  import JsonResponse
-
+import razorpay
+from django.conf import settings
+from datetime import datetime
+from random import randint
+from rest_framework.views import APIView
     
     
         
@@ -59,6 +63,11 @@ class Homepage(TemplateView):
 
 def faq(request):
     return render(request,'faqs.html')
+
+
+
+
+    
 
 
 def shop(request):
@@ -168,8 +177,7 @@ def add_to_cart(request, product_id):
             )
             for item in product_variant:
                 cart_item.variant.add(item)
-                cart_item.price = cart_item.price + item.min_price
-                cart_item.save()
+                
                 
                 
         else:
@@ -401,6 +409,43 @@ class User_download(TemplateView):
 class Basket(TemplateView):
     template_name = 'basket.html'
 
+
+    def post(self, request):
+        code = request.POST.get('voucher_code')
+        user_id = self.request.user.id
+        user = User.objects.get(id=user_id)
+        cart = Cart.objects.get(user=user)
+        cart_items = CartItems.objects.get(user=user, cart=cart)
+
+        try:
+            voucher = Voucher.objects.get(voucher_code=code)
+            print(voucher)
+        except Voucher.DoesNotExist:
+            messages.error(request, 'voucher does not exist')
+            return redirect('basket')
+
+        
+        if int(cart_items.get_cart_total()) < voucher.min_value:
+                messages.error(request, f"Minimum spend is {voucher.min_value} ")
+
+                return redirect('basket')
+
+        if voucher.discount_type == 'Fixed':
+            
+            cart_items.price = max(cart_items.price - voucher.discount_value, 0)
+            cart_items.save()
+            voucher.is_active = False
+            voucher.save()
+
+        if voucher.discount_type == 'Percentage':
+            cart_items.price = max(cart_items.price - voucher.discount_value,0)
+            cart_items.save()
+
+        return redirect('basket')
+
+            
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -408,7 +453,7 @@ class Basket(TemplateView):
         cart_item_price= 0
         for items in cart_items:
         
-            cart_item_price += items.price
+            cart_item_price = items.get_cart_total()
         # print(f"Number of cart items: {len(cart_items)}")
         # for item in cart_items:
         #     print(f"Product: {item.product.title}")
@@ -417,6 +462,7 @@ class Basket(TemplateView):
         #         print(f"Variant value: {variant.variant_value}")
         context['cart'] = cart_items
         context ['total_price'] = cart_item_price
+        
         return context
 
 
@@ -554,6 +600,111 @@ def cart_count(request):
 class Payment(TemplateView):
     template_name = "payment.html"
 
-    def get_context_data(self,**kwargs):
-        context = super(self.__class__,self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = Cart.objects.get(user=self.request.user.id)
+        cart_items = CartItems.objects.filter(cart=cart, user=self.request.user.id)
+        total_price = sum(item.price for item in cart_items)
+          # Convert to paisa
+        client = razorpay.Client(auth=(settings.RZP_KEY_ID, settings.RZP_KEY_SECRET))
+        order_amount = int(total_price)*100  #9900
+        order_currency = 'INR'
+        order_receipt = 'order_rcptid_11'
+        payment = client.order.create(dict(amount= order_amount, currency=order_currency, receipt=order_receipt, payment_capture=1))
+        print(payment)
+        random_number = str(randint(100000, 999999)) +  datetime.now().strftime('%Y%m%d')
+        user_payment = Payments.objects.create(user = self.request.user,transaction_id = random_number, payment_method = "Razorpay", amount = total_price)
+        user_payment.save()
+        for items in cart_items:
+            order_item = OrderItem.objects.create(
+                user = self.request.user,payment = user_payment,product = items.product,quantity = items.quantity,price = items.price,amount = items.product.min_price)
+            order_item.save()
+            variants = items.variant.all()
+
+# set the variants for the order item
+            order_item.variant.set(variants)
+            send_order_receive_email(request = self.request,user=self.request.user)
+
+        
+        
+        
+        context = {'cart': cart_items, 'payment': payment,}
+        context['amount'] = order_amount
+        context['user'] = self.request.user
+        context['address'] = UserAddress.objects.filter(user = self.request.user.id)
+        
         return context
+    
+
+
+class IncreaseQuantity(View):
+
+    def get(self,request,product_id):
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+        
+        product = Product.objects.get(id = product_id)
+        cart_item = CartItems.objects.get(cart = cart,user = user,product = product)
+        cart_item.quantity +=1
+        cart_item.price = cart_item.product.min_price * cart_item.quantity
+        cart_item.save()
+        messages.success(request,'Quantity increases')
+        return redirect('basket')
+    
+class DecreaseQuantity(View):
+
+    def get(self,request,product_id):
+
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        cart = Cart.objects.get(user = user)
+       
+        product = Product.objects.get(id = product_id)
+        cart_item = CartItems.objects.get(cart = cart,user = user,product = product)
+        try:
+            cart_item.quantity -= 1
+            cart_item.price = cart_item.price - cart_item.product.min_price
+            if cart_item.quantity <=0:
+                cart_item.delete()
+                return redirect('basket')
+            cart_item.save()
+            
+            messages.success(request,'Quantity Decrease')
+            return redirect('basket')
+        except CartItems.DoesNotExist:
+            messages.error(request,"Cart item not found")
+        return redirect('basket')
+
+
+
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from django.urls import reverse
+from orders.models import *
+class SendMail(APIView):
+
+
+    def post(self,request):
+        user_email = request.data.get('user_email')
+        user_message = request.data.get('user_message')
+        email_subject = 'Hello'
+        message = render_to_string('email_message.html',{
+            'user_email' : user_email,
+            'message' : user_message,
+        })
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = user_email
+        email = EmailMessage(email_subject,message,from_email,to = [to_email])
+        email.send()
+        if email:
+            return JsonResponse({
+                'message' : 'email send successfull'
+            })
+        else:
+            return JsonResponse({
+                'message' : 'email send unsuccessfull'
+            })
