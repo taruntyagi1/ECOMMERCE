@@ -26,6 +26,7 @@ from django.conf import settings
 from datetime import datetime
 from random import randint
 from rest_framework.views import APIView
+from django.views.decorators.csrf import csrf_exempt
     
     
         
@@ -687,7 +688,7 @@ from django.urls import reverse
 from orders.models import *
 class SendMail(APIView):
 
-
+    @csrf_exempt
     def post(self,request):
         user_email = request.data.get('user_email')
         user_message = request.data.get('user_message')
