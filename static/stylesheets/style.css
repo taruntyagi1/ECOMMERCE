@@ -4203,3 +4203,50 @@ body.active .wrapper .section {
 	width : 100px;
 	height: 100px;
 }
+
+
+
+
+#empty_cart{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#empty_cart .card:hover{
+	transform: none;
+}
+
+#empty_cart .card img{
+	width: 216px;
+    display: flex;
+    justify-content: center;
+    height: 167px;
+    margin-left: 269px;
+    margin-top: 50px;
+}
+#empty_cart .card{
+	width: 57rem;
+    margin-top: 69px;
+    border: 1px solid lightgrey;
+}
+
+#empty_cart .card-title{
+	margin-top: 33px;
+    margin-left: 311px;
+    font-size: 22px;
+}
+#empty_cart .card a{
+	margin-top: 40px;
+    margin-left: 311px;
+
+}
+
+#empty_cart .card a:hover{
+	transition: none !important;
+	transform: none !important;
+}
+#empty_cart .card a:focus{
+	transition: none !important;
+	transform: none !important;
+
+}

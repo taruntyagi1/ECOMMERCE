@@ -5,7 +5,7 @@
 {% block content %}
 
 
-
+{% if cart %}
 
 
     <!-- page title -->
@@ -192,10 +192,22 @@
        
        
 
+        {% else %}
+        <div id="empty_cart">
+            <div class="card" style="width: 57rem;">
+                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgOV4VaRCekJshpiqupuO5PJFvPODOAlZ778Tzo_gnQA&s" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">Your cart is Empty</h5>
+                  
+                  <a href="{% url 'shop' %}" class="btn btn-primary">Continue Shopping</a>
+                </div>
+              </div>
+        
+        </div>
    
 
    
-
+        {% endif %}
 
 
 <style>
