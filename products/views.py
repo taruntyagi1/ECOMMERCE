@@ -630,6 +630,7 @@ class Payment(TemplateView):
         context = {'cart': cart_items, 'payment': payment,}
         context['amount'] = order_amount
         context['user'] = self.request.user
+        context['address'] = UserAddress.objects.filter(user = self.request.user.id)
         return context
     
 
