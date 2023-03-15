@@ -4,7 +4,102 @@
 
 {% block content %}
 
-<button id="rzp-button1">Pay</button>
+<div class="container checkout">
+    
+    <div class="row">
+        
+            <div class="col-md-6">
+                <div class="deshboard-content-wrap">
+                    <div class="tab-content dashboad-tab-content">
+                            <!-- Account details-->
+                            <div class="user-address" >
+                                <form action="{% url 'user_address_edit'  %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <input type="hidden" name="address_id" value="{{address.id}}">
+                                        <div class="col-md-6">
+                                            <label for="first_name">First Name</label>
+                                            <input type="text" class="theme-input-style" name="first_name" value="{{user.first_name}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" class="theme-input-style" name="last_name" placeholder="Last Name" value="{{user.last_name}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="address_type">Address Type</label>
+                                            <input type="text" class="theme-input-style" name="address_type" value="{{address.address_type}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="city">City</label>
+                                            <input type="text" class="theme-input-style" name="city" value="{{address.city}}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="country">Country</label>
+                                            <input type="text" class="theme-input-style" name="country" value="{{address.country}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="state">State</label>
+                                            <input type="text" class="theme-input-style" name="state"  value="{{address.state}}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label for="pin_code">Zip code</label>
+                                            <input type="text" class="theme-input-style" name="pin_code" value="{{address.pin_code}}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="phone_number">Phone Number</label>
+                                            <input type="text" class="theme-input-style" name="phone_number" placeholder="City" value="{{user.phone_number}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mt-4">
+                                            <label for="address1">Address 1</label>
+                                            <input type="text" class="theme-input-style height-10" name="address1" placeholder="Desplay Name" value="{{address.address1}}" required>
+
+                                            <label class="mt-4" for="address2">Address 2</label>
+                                            <input type="text" class="theme-input-style height-10" name="address2" placeholder="Desplay Name" value="{{address.address2}}" required>
+                                            {% comment %} <p>This will be how your name will be displayed in the account section and in reviews</p> {% endcomment %}
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success mt-4">Save</button>
+
+                                    
+                                </form>
+                            </div>
+                            <!-- End of Account details -->
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="width: 30rem;">
+                    {% for obj in cart  %}
+                    <img class="card-img-top prd_img" src="{{obj.product.image.url}}" alt="">
+                    <div class="card-body">
+                      <h5 class="card-title">{{obj.product.title}}</h5>
+                      
+                     
+                    </div>
+                    {% endfor %}
+                    <div class="checkout_btn">
+
+                        <button id="rzp-button1">Pay</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+</div>
+
+
 
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

@@ -25,6 +25,7 @@ import razorpay
 from django.conf import settings
 from datetime import datetime
 from random import randint
+from rest_framework.views import APIView
     
     
         
@@ -631,6 +632,7 @@ class Payment(TemplateView):
         context['amount'] = order_amount
         context['user'] = self.request.user
         context['address'] = UserAddress.objects.filter(user = self.request.user.id)
+        
         return context
     
 
@@ -673,3 +675,36 @@ class DecreaseQuantity(View):
         except CartItems.DoesNotExist:
             messages.error(request,"Cart item not found")
         return redirect('basket')
+
+
+
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from django.urls import reverse
+from orders.models import *
+class SendMail(APIView):
+
+
+    def post(self,request):
+        user_email = request.data.get('user_email')
+        user_message = request.data.get('user_message')
+        email_subject = 'Hello'
+        message = render_to_string('email_message.html',{
+            'user_email' : user_email,
+            'message' : user_message,
+        })
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = user_email
+        email = EmailMessage(email_subject,message,from_email,to = [to_email])
+        email.send()
+        if email:
+            return JsonResponse({
+                'message' : 'email send successfull'
+            })
+        else:
+            return JsonResponse({
+                'message' : 'email send unsuccessfull'
+            })

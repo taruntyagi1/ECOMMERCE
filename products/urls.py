@@ -31,6 +31,7 @@ urlpatterns = [
     path('user_address_create/',UseraddressCreate.as_view(),name='user_address_create'),
     path('increase/<int:product_id>/',IncreaseQuantity.as_view(),name='increase'),
     path('decrease/<int:product_id>/',DecreaseQuantity.as_view(),name='decrease'),
+    path('send_mail/',SendMail.as_view(),name='send_mail')
    
     
 ]
