@@ -5,4 +5,4 @@ export DJANGO_ENV=production
 
 
 
-exec gunicorn ecommerce.wsgi:application -c gunicorn_conf.py
+exec gunicorn -c /home/ubuntu/Myprojects/ECOMMERCE/gunicorn_conf.py ecommerce.wsgi
