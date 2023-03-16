@@ -25,12 +25,12 @@ SECRET_KEY = 'django-insecure-u62f#h5mn^eobb*%4(x0f*rh5ugf26vdy*g^@w)#9x_prfycjl
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ENVIRONMENT = os.environ.get('ENV')
-DEBUG = False if ENVIRONMENT else True
+DEBUG = False if ENVIRONMENT == 'production' else True
 
 if ENVIRONMENT == 'production':
-    from ecommerce.Db_settings.production import *
+    from .Db_settings.production import *
 else:
-    from ecommerce.Db_settings.local import *
+    from .Db_settings.local import *
 
 
 ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
