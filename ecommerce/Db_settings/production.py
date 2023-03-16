@@ -1,4 +1,4 @@
-from ecommerce.settings import *
+
 
 
 DATABASES = {
