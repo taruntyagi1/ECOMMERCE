@@ -30,7 +30,7 @@ DEBUG = False if ENVIRONMENT == 'production' else True
 if ENVIRONMENT == 'production':
     from .Db_settings.production import *
 else:
-    from .Db_settings.local import *
+    from ecommerce.Db_settings.local import *
 
 
 ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
