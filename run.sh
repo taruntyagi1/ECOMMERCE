@@ -1,3 +1,3 @@
 
-export ENV="production"  # or "local"
+export ENV=production  # or "local"
 

@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u62f#h5mn^eobb*%4(x0f*rh5ugf26vdy*g^@w)#9x_prfycjl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-ENVIRONMENT = os.environ.get('ENV')
+ENVIRONMENT = ENV = os.environ.get('ENV')
 DEBUG = False if ENVIRONMENT == 'production' else True
 
 
@@ -163,8 +163,9 @@ RZP_KEY_SECRET = 'MCFgOQFHTS5MtuoEMATX293B'
 
 
 if ENVIRONMENT == 'production':
-    from .production import *
-try:
-    from .local import *
-except ImportError:
-    pass
+    from .Db_settings.production import *
+else:
+    try:
+        from .Db_settings.local import *
+    except ImportError:
+        pass
