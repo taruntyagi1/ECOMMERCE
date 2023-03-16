@@ -28,9 +28,9 @@ ENVIRONMENT = os.environ.get('ENV')
 DEBUG = False if ENVIRONMENT == 'production' else True
 
 if ENVIRONMENT == 'production':
-    from .Db_settings.production import *
+    from .production import *
 else:
-    from ecommerce.Db_settings.local import *
+    from .local import *
 
 
 ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
