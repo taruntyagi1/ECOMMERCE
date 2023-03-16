@@ -27,12 +27,7 @@ SECRET_KEY = 'django-insecure-u62f#h5mn^eobb*%4(x0f*rh5ugf26vdy*g^@w)#9x_prfycjl
 ENVIRONMENT = os.environ.get('ENV')
 DEBUG = False if ENVIRONMENT == 'production' else True
 
-if ENVIRONMENT == 'production':
-    from .production import *
-try:
-    from .local import *
-except ImportError:
-    pass
+
 
 
 ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
@@ -58,13 +53,8 @@ INSTALLED_APPS = [
 ]
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Ecommerce',
-        'USER': 'postgres',
-        'PASSWORD': 'tarunroot',
-        'HOST': 'database-2.cvuk9hr7ijcp.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
-       
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -172,3 +162,9 @@ RZP_KEY_ID = 'rzp_test_MJjlTAaVHnpUJ9'
 RZP_KEY_SECRET = 'MCFgOQFHTS5MtuoEMATX293B'
 
 
+if ENVIRONMENT == 'production':
+    from .production import *
+try:
+    from .local import *
+except ImportError:
+    pass
