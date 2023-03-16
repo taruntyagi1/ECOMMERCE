@@ -24,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u62f#h5mn^eobb*%4(x0f*rh5ugf26vdy*g^@w)#9x_prfycjl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-ENVIRONMENT = os.environ.get('ENVIRONMENT', 'local')
-DEBUG = False if ENVIRONMENT else True
+# ENVIRONMENT = os.environ.get('ENVIRONMENT', 'local')
+# DEBUG = False if ENVIRONMENT else True
 
-if ENVIRONMENT == 'production':
-    from ecommerce.Db_settings.production import *
-else:
-    from ecommerce.Db_settings.local import *
+# if ENVIRONMENT == 'production':
+#     from ecommerce.Db_settings.production import *
+# else:
+#     from ecommerce.Db_settings.local import *
 
 
 ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
@@ -93,7 +93,17 @@ AUTH_USER_MODEL = 'accounts.User'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Ecommerce',
+        'USER': 'postgres',
+        'PASSWORD': 'tarunroot',
+        'HOST': 'database-2.cvuk9hr7ijcp.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
+       
+    }
+}
 
 
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
