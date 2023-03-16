@@ -29,8 +29,10 @@ DEBUG = False if ENVIRONMENT == 'production' else True
 
 if ENVIRONMENT == 'production':
     from ecommerce.production import *
-else:
-    from ecommerce.local import *
+try:
+    from .local import *
+except ImportError:
+    pass
 
 
 ALLOWED_HOSTS = ['*','18.191.197.255','www.tarun.com']
