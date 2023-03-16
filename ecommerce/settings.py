@@ -28,7 +28,7 @@ ENVIRONMENT = os.environ.get('ENV')
 DEBUG = False if ENVIRONMENT == 'production' else True
 
 if ENVIRONMENT == 'production':
-    from ecommerce.production import *
+    from .production import *
 try:
     from .local import *
 except ImportError:
