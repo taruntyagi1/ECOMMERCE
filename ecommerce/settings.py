@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-u62f#h5mn^eobb*%4(x0f*rh5ugf26vdy*g^@w)#9x_prfycjl
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ENVIRONMENT  = os.environ.get('ENV')
-DEBUG = False if ENVIRONMENT == 'production' else True
+DEBUG = False
 
 
 
@@ -51,12 +51,19 @@ INSTALLED_APPS = [
     'cart',
     'orders'
 ]
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Ecommerce',
+        'USER': 'postgres',
+        'PASSWORD': 'tarunroot',
+        'HOST': 'database-2.cvuk9hr7ijcp.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
+       
     }
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -162,10 +169,3 @@ RZP_KEY_ID = 'rzp_test_MJjlTAaVHnpUJ9'
 RZP_KEY_SECRET = 'MCFgOQFHTS5MtuoEMATX293B'
 
 
-if ENVIRONMENT == 'production':
-    from .Db_settings.production import *
-else:
-    try:
-        from .Db_settings.local import *
-    except ImportError:
-        pass
