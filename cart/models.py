@@ -54,9 +54,9 @@ class Voucher(models.Model):
     # cart_item = models.ForeignKey(CartItems,on_delete=models.CASCADE,null = True,blank = True)
     voucher_code = models.CharField(max_length=1000,null = True,blank = True)
     discount_type = models.CharField(max_length=1000,choices=VOUCHER_DISCOUNT,null = True,blank = True)
-    discount_value = models.IntegerField(max_length=100,null = True,blank = True)
-    min_value = models.IntegerField(max_length=100,null = True,blank = True)
-    max_discount = models.IntegerField(max_length=100,null = True,blank = True)
+    discount_value = models.IntegerField(null = True,blank = True)
+    min_value = models.IntegerField(null = True,blank = True)
+    max_discount = models.IntegerField(null = True,blank = True)
     is_active = models.BooleanField(default=False)
 
 

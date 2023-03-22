@@ -28,6 +28,9 @@ from random import randint
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_page
+from reviews.models import *
+from rest_framework.response import Response
+from rest_framework import status
     
     
         
@@ -97,6 +100,14 @@ def filter_products(request):
 
     return render(request,'shop-5col.html',context)
 
+
+def search_filter(request):
+    search_item = request.POST.get('q')
+    products = Product.objects.filter(description__icontains=search_item)
+    context = {
+        'products' : products 
+    }
+    return render(request,'shop-5col.html',context)
 
 class FilterName(View):
 
@@ -714,3 +725,18 @@ class SendMail(APIView):
             return JsonResponse({
                 'message' : 'email send unsuccessfull'
             })
+        
+
+
+class Reviews(APIView):
+    def post(self,request):
+        user_id = self.request.user.id
+        user = User.objects.get(id = user_id)
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(id = product_id)
+        review = request.POST.get('review')
+        product_review = ProductReviews.objects.create(user = user,product = product,review = review)
+        product_review.save()
+        return redirect(reverse('single_product', args=[product.id]))
+    
+        

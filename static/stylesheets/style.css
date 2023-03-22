@@ -4250,3 +4250,20 @@ body.active .wrapper .section {
 	transform: none !important;
 
 }
+
+#single_product #var_color{
+	margin-top: 1px;
+    position: relative;
+    top: 20px;
+    font-size: 25px;
+    font-weight: 500;
+
+}
+
+#single_product #var_size{
+	margin-top: 1px;
+    position: relative;
+    top: 20px;
+    font-size: 25px;
+    font-weight: 500;
+}

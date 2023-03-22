@@ -1046,6 +1046,36 @@ $(document).ready(function () {
 })
 
 
+$(document).ready(function(){
+    $('#commentform').submit(function(event){
+        // prevent default form submission
+
+        var product_id = $('#product_id').val();
+        var review = $('#user_review').val();
+        var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            url: '/review_create/',
+            method: 'POST',
+            data: {
+                'product_id': product_id,
+                'review': review,
+                'csrfmiddlewaretoken': csrfmiddlewaretoken
+            },
+            success: function(response){
+                console.log(response);
+                // handle success response here
+            },
+            error: function(xhr, status, error){
+                console.log(error);
+                // handle error response here
+            }
+        });
+    });
+});
+
+
+
 
 // paypal.Buttons({
 //     // Order is created on the server and the order id is returned

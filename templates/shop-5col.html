@@ -34,8 +34,11 @@
           {% endfor %}
         </div>
         <div class="search_filter">
+          <form action="{% url 'search_filter' %}" method="post">
+            {% csrf_token %}
           <!-- Search form -->
-           <i class="fa fa-search" aria-hidden="true"></i>
+            <input class="form-control" name="q" type="text" placeholder="Search" aria-label="Search"><button type="submit"><i class="fas fa-search"></i></button>
+          </form>
         </div>
 
       </section>

@@ -40,7 +40,7 @@
                   <p>{{ product.category.title }}</p>
                   <h1>{{ product.title }}</h1>
                   <h4>{{ product.min_price }}</h4>
-                  <label for="">Color</label>
+                  <label id="var_color" for="">Color</label>
                   <select name="Color" id="id_Color">
                       {% for obj in variant %}
                           {% if obj.variant_type == "Color" %}
@@ -48,7 +48,7 @@
                           {% endif %}
                       {% endfor %}
                   </select>
-                  <label for="">Size</label>
+                  <label id="var_size" for="">Size</label>
                   <select name="Size" id="id_Size">
                       {% for obj in variant %}
                           {% if obj.variant_type == "Size" %}
@@ -57,7 +57,7 @@
                       {% endfor %}
                   </select>
       
-                  <input type="number" name="quantity" value="1">
+                  
                   <button type="submit" class="btn btn-success">Add to cart</button>
               </div>
           </div>
@@ -70,109 +70,12 @@
               <div class="flat-tabs style-1 has-border">
                 <div class="inner">
                   <ul class="menu-tab">
-                    <li class="active">Description</li>
+                   
                     <li>Additional information</li>
                     <li>Reviews</li>
                   </ul>
                   <div class="content-tab">
-                    <div class="content-inner">
-                      <div
-                        class="flat-grid-box col2 border-width border-width-1 has-padding clearfix"
-                      >
-                        <div class="grid-row image-left clearfix">
-                          <div class="grid-item">
-                            <div class="thumb text-center">
-                              <img
-                                src="images/shop/sh-detail/detail-desc-01.jpg"
-                                alt="Image"
-                              />
-                            </div>
-                          </div>
-                          <div class="grid-item">
-                            <div class="text-wrap">
-                              <h6 class="title">100 % alligator</h6>
-                              <p>
-                                Fashion has always been so temporary and
-                                uncertain. You can’t keep up with it. This
-                                social phenomenon is very whimsical, thus we as
-                                the consumers always try to stay in touch with
-                                all the latest fash- ion tendencies.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="grid-row image-right padding-bottom-48 clearfix"
-                        >
-                          <div class="grid-item">
-                            <div class="text-wrap">
-                              <h6 class="title">Youthful Style</h6>
-                              <p>
-                                Fashion has always been so temporary and
-                                uncertain. You can’t keep up with it. This
-                                social phenomenon is very whimsical, thus we as
-                                the consumers always try to stay in touch with
-                                all the latest fash- ion tendencies.
-                              </p>
-                            </div>
-                          </div>
-                          <div class="grid-item">
-                            <div class="thumb text-center">
-                              <img
-                                src="images/shop/sh-detail/detail-desc-02.jpg"
-                                alt="Image"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="grid-row image-left padding-bottom-48 clearfix"
-                        >
-                          <div class="grid-item">
-                            <div class="thumb text-center">
-                              <img
-                                src="images/shop/sh-detail/detail-desc-03.jpg"
-                                alt="Image"
-                              />
-                            </div>
-                          </div>
-                          <div class="grid-item">
-                            <div class="text-wrap">
-                              <h6 class="title">Comfortable</h6>
-                              <p>
-                                Fashion has always been so temporary and
-                                uncertain. You can’t keep up with it. This
-                                social phenomenon is very whimsical, thus we as
-                                the consumers always try to stay in touch with
-                                all the latest fash- ion tendencies.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="grid-row image-right clearfix">
-                          <div class="grid-item">
-                            <div class="text-wrap">
-                              <h6 class="title">Easy To Clean</h6>
-                              <p>
-                                Fashion has always been so temporary and
-                                uncertain. You can’t keep up with it. This
-                                social phenomenon is very whimsical, thus we as
-                                the consumers always try to stay in touch with
-                                all the latest fash- ion tendencies.
-                              </p>
-                            </div>
-                          </div>
-                          <div class="grid-item">
-                            <div class="thumb text-center">
-                              <img
-                                src="images/shop/sh-detail/detail-desc-04.jpg"
-                                alt="Image"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
                     <div class="content-inner">
                       <div class="inner max-width-40">
                         <table>
@@ -200,7 +103,7 @@
                         <ol class="review-list">
                           <li class="review">
                             <div class="thumb">
-                              <img src="images/avatar-1.png" alt="Image" />
+                              {% comment %} <img src="images/avatar-1.png" alt="Image" /> {% endcomment %}
                             </div>
                             <div class="text-wrap">
                               <div class="review-meta">
@@ -223,31 +126,7 @@
                               </div>
                             </div>
                           </li>
-                          <li class="review">
-                            <div class="thumb">
-                              <img src="images/avatar.png" alt="Image" />
-                            </div>
-                            <div class="text-wrap">
-                              <div class="review-meta">
-                                <h5 class="name">Jayne Haughton</h5>
-                                <div class="flat-star style-1">
-                                  <i class="fa fa-star"></i>
-                                  <i class="fa fa-star"></i>
-                                  <i class="fa fa-star"></i>
-                                  <i class="fa fa-star"></i>
-                                  <i class="fa fa-star-half-o"></i>
-                                </div>
-                              </div>
-                              <div class="review-text">
-                                <p class="line-height-28">
-                                  Customer service is very important part of the
-                                  buying experience to us and we must say that
-                                  we have found Utility's to be impressive - we
-                                  will certainly look to buy again in future.
-                                </p>
-                              </div>
-                            </div>
-                          </li>
+                          
                         </ol>
                         <div
                           class="comment-respond review-respond"
@@ -260,13 +139,8 @@
                               fields are marked *
                             </p>
                           </div>
-                          <form
-                            novalidate=""
-                            class="comment-form review-form"
-                            id="commentform"
-                            method="post"
-                            action="#"
-                          >
+                          <form novalidate="" class="comment-form review-form" id="commentform" method="post" action="{% url 'review_create' %}">
+                            {% csrf_token %}
                             <p class="flat-star style-2">
                               <label>Rating*:</label>
                               <i class="fa fa-star"></i>
@@ -276,48 +150,25 @@
                               <i class="fa fa-star"></i>
                             </p>
                             <p class="comment-form-comment">
+                              <input id="product_id" type="hidden" name="product_id" value="{{product.id}}">
                               <label>Review*</label>
-                              <textarea
-                                class=""
-                                tabindex="4"
-                                name="comment"
-                                required
-                              >
+                              <textarea id="user_review" class="" tabindex="4" name="review" required>
                               </textarea>
                             </p>
                             <p class="comment-name">
                               <label>Name*</label>
-                              <input
-                                type="text"
-                                aria-required="true"
-                                size="30"
-                                value=""
-                                name="name"
-                                id="name"
-                              />
+                              <input type="text" aria-required="true" size="30" value="" name="name" id="name"/>
                             </p>
                             <p class="comment-email">
                               <label>Email*</label>
-                              <input
-                                type="email"
-                                size="30"
-                                value=""
-                                name="email"
-                                id="email"
-                              />
+                              <input type="email" size="30" value="" name="email" id="email"/>
                             </p>
                             <p class="comment-form-notify clearfix">
-                              <input
-                                type="checkbox"
-                                name="check-notify"
-                                id="check-notify"
-                              />
-                              <label for="check-notify"
-                                >Notify me of new posts by email</label
-                              >
+                              <input type="checkbox" name="check-notify" id="check-notify"/>
+                              <label for="check-notify">Notify me of new posts by email</label>
                             </p>
                             <p class="form-submit">
-                              <button class="comment-submit">Submit</button>
+                              <button type="submit" class="comment-submit">Submit</button>
                             </p>
                           </form>
                         </div>
@@ -339,117 +190,7 @@
               </div>
               <div class="product-content product-fourcolumn clearfix">
                 <ul class="product style2">
-                  <li class="product-item">
-                    <div class="product-thumb clearfix">
-                      <a href="#">
-                        <img src="images/shop/sh-4/1.jpg" alt="image" />
-                      </a>
-                    </div>
-                    <div class="product-info clearfix">
-                      <span class="product-title"
-                        >Cotton White Underweaer Block Out Edition</span
-                      >
-                      <div class="price">
-                        <ins>
-                          <span class="amount">$19.00</span>
-                        </ins>
-                      </div>
-                      <ul class="flat-color-list">
-                        <li>
-                          <a href="#" class="red"></a>
-                        </li>
-                        <li>
-                          <a href="#" class="blue"></a>
-                        </li>
-                        <li>
-                          <a href="#" class="black"></a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
-                  </li>
-                  <li class="product-item">
-                    <div class="product-thumb clearfix">
-                      <a href="#">
-                        <img src="images/shop/sh-4/2.jpg" alt="image" />
-                      </a>
-                      <span class="new">New</span>
-                    </div>
-                    <div class="product-info clearfix">
-                      <span class="product-title"
-                        >Cotton White Underweaer Block Out Edition</span
-                      >
-                      <div class="price">
-                        <ins>
-                          <span class="amount">$10.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div class="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
-                  </li>
-                  <li class="product-item">
-                    <div class="product-thumb clearfix">
-                      <a href="#" class="product-thumb">
-                        <img src="images/shop/sh-4/3.jpg" alt="image" />
-                      </a>
-                    </div>
-                    <div class="product-info clearfix">
-                      <span class="product-title"
-                        >Cotton White Underweaer Block Out Edition</span
-                      >
-                      <div class="price">
-                        <ins>
-                          <span class="amount">$20.00</span>
-                        </ins>
-                      </div>
-                    </div>
-                    <div class="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
-                  </li>
-                  <li class="product-item">
-                    <div class="product-thumb clearfix">
-                      <a href="#" class="product-thumb">
-                        <img src="images/shop/sh-4/4.jpg" alt="image" />
-                      </a>
-                      <span class="new sale">Sale</span>
-                    </div>
-                    <div class="product-info clearfix">
-                      <span class="product-title"
-                        >Cotton White Underweaer Block Out Edition</span
-                      >
-                      <div class="price">
-                        <del>
-                          <span class="regular">$90.00</span>
-                        </del>
-                        <ins>
-                          <span class="amount">$60.00</span>
-                        </ins>
-                      </div>
-                      <ul class="flat-color-list">
-                        <li>
-                          <a href="#" class="red"></a>
-                        </li>
-                        <li>
-                          <a href="#" class="blue"></a>
-                        </li>
-                        <li>
-                          <a href="#" class="black"></a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="add-to-cart text-center">
-                      <a href="#">ADD TO CART</a>
-                    </div>
-                    <a href="#" class="like"><i class="fa fa-heart-o"></i></a>
-                  </li>
+                  
                 </ul>
               </div>
             </div>
