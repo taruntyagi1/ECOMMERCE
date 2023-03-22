@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'products',
     'category',
     'cart',
-    'orders'
+    'orders',
+    'storages',
 ]
 DATABASES = {
     'default': {
@@ -101,7 +102,6 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 
 
 
@@ -167,3 +167,13 @@ RZP_KEY_ID = 'rzp_test_MJjlTAaVHnpUJ9'
 RZP_KEY_SECRET = 'MCFgOQFHTS5MtuoEMATX293B'
 
 
+AWS_ACCESS_KEY_ID = 'AKIAUZHKPM76AGQJCWN5'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME ='ecommerces3bucket'
+AWS_S3_SIGNATURE_NAME = 's3v4'
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
