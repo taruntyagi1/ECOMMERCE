@@ -27,11 +27,12 @@ from datetime import datetime
 from random import randint
 from rest_framework.views import APIView
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_page
     
     
         
 
-
+@cache_page(1000)
 def home(request):
     products = Product.objects.all().order_by('id')[:8]
     new_product = Product.objects.filter(is_active =  True).order_by('created_at')[:4]
@@ -70,7 +71,7 @@ def faq(request):
 
     
 
-
+@cache_page(300)
 def shop(request):
     products = Product.objects.all().order_by('id')
     
@@ -275,9 +276,13 @@ class Logout(View):
         return redirect('home')
 
 
-
 class ContactView(TemplateView):
     template_name = 'contact-v2.html'
+
+
+    @method_decorator(cache_page(300))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get_context_data(self,**kwargs):
         context = super(self.__class__,self).get_context_data(**kwargs)
