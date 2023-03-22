@@ -33,6 +33,10 @@
           <a href="{% url 'filter_products' %}?category={{obj.slug}}" {% if obj.slug == category_slug %}class="active"{% endif %}>{{obj.title}}</a>
           {% endfor %}
         </div>
+        <div class="search_filter">
+          <!-- Search form -->
+           <i class="fa fa-search" aria-hidden="true"></i>
+        </div>
 
       </section>
       <section class="flat-row main-shop">

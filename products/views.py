@@ -71,7 +71,7 @@ def faq(request):
 
     
 
-@cache_page(300)
+
 def shop(request):
     products = Product.objects.all().order_by('id')
     
