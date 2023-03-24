@@ -40,6 +40,7 @@
                   <p>{{ product.category.title }}</p>
                   <h1>{{ product.title }}</h1>
                   <h4>{{ product.min_price }}</h4>
+                  {% if variant %}
                   <label id="var_color" for="">Color</label>
                   <select name="Color" id="id_Color">
                       {% for obj in variant %}
@@ -48,14 +49,22 @@
                           {% endif %}
                       {% endfor %}
                   </select>
+                  
                   <label id="var_size" for="">Size</label>
                   <select name="Size" id="id_Size">
                       {% for obj in variant %}
+                      
                           {% if obj.variant_type == "Size" %}
                               <option value="{{ obj.variant_value }}" name = "{{obj.variant_value}}" >{{ obj.variant_value }}</option>
                           {% endif %}
                       {% endfor %}
                   </select>
+                  
+                  
+                  {% else %}
+
+                  {% endif %}
+
       
                   
                   <button type="submit" class="btn btn-success">Add to cart</button>

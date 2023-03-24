@@ -857,7 +857,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('.owl-carousel').owlCarousel({
         loop: false,
-        margin: 0,
+        margin: 1,
         responsiveClass: true,
         dots: true,
         responsive: {

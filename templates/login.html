@@ -16,6 +16,8 @@
   
             <form style="width: 23rem;" action="{% url 'login' %}" method="post">
                 {% csrf_token %}
+
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
   
              
   

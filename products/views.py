@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,HttpResponse
+from django.shortcuts import render,redirect,HttpResponse,HttpResponseRedirect
 from products.models import *
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
@@ -31,11 +31,19 @@ from django.views.decorators.cache import cache_page
 from reviews.models import *
 from rest_framework.response import Response
 from rest_framework import status
-    
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from django.urls import reverse
+from orders.models import *
+from django.views.decorators.http import require_http_methods
+
     
         
 
-@cache_page(1000)
+
 def home(request):
     products = Product.objects.all().order_by('id')[:8]
     new_product = Product.objects.filter(is_active =  True).order_by('created_at')[:4]
@@ -201,79 +209,52 @@ def add_to_cart(request, product_id):
 
         return redirect(reverse('single_product', args=[product.id]))
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView
-from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
+def _redirect_requested(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+
+
 
 class LoginView(TemplateView):
     template_name = 'login.html'
 
-    @method_decorator(require_http_methods(["GET", "POST"]))
+    @method_decorator(unauthenticated)
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('home')
-
-        self.next_url = request.GET.get('next')
         return super().dispatch(request, *args, **kwargs)
 
+    
+
     def post(self, request):
+        next_url = request.POST.get('next')
+        print('next',next_url)
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(request, email=email, password=password)
 
-        if user is not None:
+        if user is not None and next_url == '':
             login(request, user)
             messages.success(request, 'You are logged in.')
-            if self.next_url:
-                return redirect(self.next_url)
-            else:
-                return redirect('home')
+            return redirect('home')
+        if user is not None and next_url!='':
+            login(request,user)
+            return redirect(next_url)
+            
+            
+            
         else:
             messages.error(request, 'Validation error.')
             return redirect('login')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['next'] = self.next_url
+        # context['next'] = self.request.GET.get('next')
+        
         return context
 
 
-class Login_for_requested_path(TemplateView):
-    template_name = 'login.html'
-    
 
 
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect(self.success_url)
-
-        return render(request, self.template_name)
-    
-
-    def post(self,request,*args,**kwargs):
-        if request.user.is_authenticated:
-            return redirect(self.success_url)
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        user = authenticate(request,email = email,password = password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, 'You are logged in')
-            return redirect(self.get_success_url())
-
-        messages.error(request, 'Invalid email or password')
-        return redirect('login')
-    
-    def get_success_url(self):
-        redirect_to = self.request.GET.get('next', '')
-        if redirect_to:
-            return redirect_to
-        else:
-            return self.success_url
 
 
 
@@ -307,6 +288,11 @@ def handle_404(request,exception):
 
 class UserAccount(TemplateView):
     template_name = 'user_account.html'
+
+
+    @method_decorator(login_required(login_url='login'))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
     def post(self,request):
@@ -395,7 +381,7 @@ def activate_account(request,uidb64,token):
 class USerOrders(TemplateView):
     template_name = 'orders.html'
 
-    @method_decorator(login_required(login_url='request_path_login'))
+    @method_decorator(login_required(login_url='login'))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     def get_context_data(self,**kwargs):
@@ -531,30 +517,7 @@ class UseraddressCreate(TemplateView):
         return context
 
 
-# def address_form(request,address_id):
-#     address = get_object_or_404(UserAddress,id = address_id)
-#     context = {
-#         'address' : address
-#     }
-#     return render(request,'user_address_form.html',context)
-    
-    # def post(self,request):
-    #     address_id = request.POST.get('address_id')
-        
-    #     address = UserAddress.objects.filter(id = address_id,user = self.request.user).first()
-    #     if address:
-    #         address.address1 = request.POST.get('address1',address.address1)
-    #         address.address2 = request.POST.get('address2', address.address2)
-    #         address.address_type = request.POST.get('address_type', address.address_type)
-    #         address.country = request.POST.get('country', address.country)
-    #         address.state = request.POST.get('state', address.state)
-    #         address.city = request.POST.get('city', address.city)
-    #         address.pin_code = request.POST.get('zip_code', address.pin_code)
-    #         address.save()
-    #         messages.success(request,'Address chnage successfully')
 
-    #     else:
-    #         messages.error(request, 'Address not found.')
 
 class UserAddressForm(TemplateView):
     template_name = 'user_address_form.html'
@@ -695,13 +658,7 @@ class DecreaseQuantity(View):
 
 
 
-from django.core.mail import EmailMessage
-from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string
-from django.contrib.auth.tokens import default_token_generator
-from django.conf import settings
-from django.urls import reverse
-from orders.models import *
+
 class SendMail(APIView):
 
     @csrf_exempt

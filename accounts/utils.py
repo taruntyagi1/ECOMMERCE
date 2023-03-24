@@ -8,6 +8,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.urls import reverse
 from orders.models import *
+from twilio.rest import Client
+import random
+from django.shortcuts import render,redirect
 
 
 
@@ -41,3 +44,8 @@ def send_order_receive_email(request,user):
     to_email = user.email
     email = EmailMessage(email_subject,message,from_email,to=[to_email])
     email.send()
+
+
+
+        
+    

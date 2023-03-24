@@ -29,6 +29,7 @@
       </div>
       <section class="cat_filters">
         <div class="cat_name">
+          <a href="{% url 'shop' %}">All</a>
           {% for obj in links  %}
           <a href="{% url 'filter_products' %}?category={{obj.slug}}" {% if obj.slug == category_slug %}class="active"{% endif %}>{{obj.title}}</a>
           {% endfor %}

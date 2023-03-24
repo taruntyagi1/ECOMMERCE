@@ -19,8 +19,6 @@ urlpatterns = [
     path('basket/',Basket.as_view(),name='basket'),
     path('filter_name/',FilterName.as_view(),name='filter_name'),
     path('user_address_edit/', UserAddressEdit.as_view(), name='user_address_edit'),
-    path('request_path_login/',Login_for_requested_path.as_view(),name = 'request_path_login'),
-
     path('user_orders/',USerOrders.as_view(),name='user_orders'),
     path('user_download/',User_download.as_view(),name='user_download'),
     path('user_address_form/<int:address_id>/',UserAddressForm.as_view(),name='user_address_form'),

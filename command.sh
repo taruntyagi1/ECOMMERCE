@@ -96,3 +96,27 @@ DATABASES = {
         autoindex on;
         alias /home/ubuntu/Myprojects/ECOMMERCE/media/;
     }
+
+
+#local postgres configuration
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ecommerce',
+        'USER': 'postgresroot',
+        'PASSWORD': 'tarunroot',
+        'HOST': 'localhost',
+        'PORT': '',
+       
+    }
+}
+
+
+#twillo recover code
+
+
+bdPmI0olPqxgD6x2lSkZr4q4mtzh8BzdGqJbmzrd
+twillo_secret = 'AMWBp9VOCnRuGcC35fKjL4Tgzet4pzyv'
+sid = 'SKcba42e174d022bf6634643b8e7e855f6
