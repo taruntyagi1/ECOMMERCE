@@ -23,7 +23,12 @@
       <! -----single product page-------- >
 
       <div class="container" id = "single_product">
+        {% if user.is_authenticated %}
         <form action="{% url 'add_to_cart' product.id %}" method="post">
+          {% else %}
+          <form action="{% url 'session_cart' product.id %}" method="post">
+            {% endif %}
+
           {% csrf_token %}
           <div class="row">
               <div class="col-6">
@@ -65,9 +70,13 @@
 
                   {% endif %}
 
-      
+
+                  {% comment %} {% if user.is_authenticated %} {% endcomment %}
                   
                   <button type="submit" class="btn btn-success">Add to cart</button>
+                  {% comment %} {% else %}
+                  <button><a href="{% url 'login' %}">Login To Add Product</a></button>
+                  {% endif %} {% endcomment %}
               </div>
           </div>
       </form>

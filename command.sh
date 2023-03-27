@@ -120,3 +120,33 @@ DATABASES = {
 bdPmI0olPqxgD6x2lSkZr4q4mtzh8BzdGqJbmzrd
 twillo_secret = 'AMWBp9VOCnRuGcC35fKjL4Tgzet4pzyv'
 sid = 'SKcba42e174d022bf6634643b8e7e855f6
+
+
+  GNU nano 6.2                                                        /etc/nginx/sites-available/ecommerceNgix                                                                  
+server {
+    server_name 18.191.197.255 www.greatkart.tech greatkart.tech;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        autoindex on;
+        alias /home/ubuntu/Myprojects/ECOMMERCE/static/;
+    }
+
+
+
+
+    location /static/admin/ {
+        autoindex on;
+        alias /home/ubuntu/Myprojects/ECOMMERCE/staticfiles/admin/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+
+    
+
+
+    }

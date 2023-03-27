@@ -1332,7 +1332,20 @@ h6 {
 #mainnav>ul>li>a:hover {
 	color: #f63440;
 }
+.menu-extra {
+	position: relative;
+  }
+  
+  .box-login {
+	position: absolute;
+	top: 100%;
+	left: 0;
+  }
 
+  .icon_cart{
+	position: relative;
+    left: 1029px;
+  }
 /* Submenu */
 #mainnav ul.submenu {
 	position: absolute;
@@ -1394,6 +1407,7 @@ h6 {
 	left: auto;
 	right: 0;
 }
+
 
 /* Mobile button */
 .mobile-button {

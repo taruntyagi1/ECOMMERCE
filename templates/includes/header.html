@@ -85,44 +85,14 @@
             </div>
             <div class="mobile-button"><span></span></div>
             <ul class="menu-extra">
-              {% comment %} <li class="box-search">
-                <a class="icon_search header-search-icon" href="#"></a>
-                <form
-                  role="search"
-                  method="get"
-                  class="header-search-form"
-                  action="#"
-                >
-                  <input
-                    type="text"
-                    value=""
-                    name="s"
-                    class="header-search-field"
-                    placeholder="Search..."
-                  />
-                  <button
-                    type="submit"
-                    class="header-search-submit"
-                    title="Search"
-                  >
-                    Search
-                  </button>
-                </form>
-              </li> {% endcomment %}
               {% if user.is_authenticated %}
-              
-             
               <li class="box-login" style="display:none;">
                 <a class="icon_login" href="{% url 'login' %}"></a>
               </li>
               {% else %}
-
               <li class="box-login" style="display:block;">
                 <a class="icon_login" href="{% url 'login' %}"></a>
               </li>
-
-
-             
               {% endif %}
               <li class="box-cart nav-top-cart-wrapper">
                 <a class="icon_cart nav-cart-trigger active" href="{% url 'basket' %}"> <span class="cart-count" data-cart-count="0">0</span></a>
@@ -131,7 +101,6 @@
                     <div class="woocommerce-min-cart-wrap">
                       <ul class="woocommerce-mini-cart cart_list product_list_widget">
                         <li class="woocommerce-mini-cart-item mini_cart_item">
-                          
                         </li>
                       </ul>
                     </div>
@@ -144,37 +113,26 @@
                 <ul class="menu">
                   <li class="active">
                     <a href="{% url 'home' %}">HOME</a>
-                    
                   </li>
                   <li>
                     <a href="{% url 'shop' %}">SHOP</a>
-                    
                   </li>
                   <li>
-                   
                     <li><a href="{% url 'faq' %}">FAQs</a></li>
-                    
                   </li>
-                 
                   <li>
                     <a href="{% url 'contact' %}">CONTACT</a>
-                    
                   </li>
-                  <li>
+                  <li class="dropdown profile_dropdown">
                     {% if user.is_authenticated %}
-               
-                    <li class="dropdown profile_dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
-                      <ul class="dropdown-menu ">
-                        <li><a href="{% url 'user_orders' %}">My Profile</a></li>
-                        <li><a href="{% url 'logout' %}">Logout</a></li>
-                      </ul>
-                    </li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">MY ACCOUNT <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{% url 'user_orders' %}">My Profile</a></li>
+                      <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
                     {% else %}
-
+                    <a class="icon_menu" href="#"></a>
                     {% endif %}
-                    
-                    
                   </li>
                 </ul>
               </nav>

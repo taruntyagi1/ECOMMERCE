@@ -168,7 +168,7 @@ def add_to_cart(request, product_id):
             value = request.POST[key]
 
             try:
-                variant = Variant.objects.get(variant_type=key, variant_value=value)
+                variant = Variant.objects.get(variant_type=key, variant_value=value,product = product)
                 print(variant)
                 product_variant.append(variant)
             except Variant.DoesNotExist:
@@ -208,6 +208,41 @@ def add_to_cart(request, product_id):
             cart_item.save()
 
         return redirect(reverse('single_product', args=[product.id]))
+    
+
+def add_to_session_cart(request,product_id):
+    product = Product.objects.get(id = product_id)
+    
+    cart = request.session.get('cart', {})
+    cart_item = None
+    cart_item_id = str(product_id)
+    product_variant = []
+    for items in request.POST:
+        key = items
+        value = request.POST[key]
+
+        try:
+            variant = Variant.objects.get(variant_type=key, variant_value=value,product = product)
+            print(variant)
+            product_variant.append(variant)
+        except Variant.DoesNotExist:
+                variant = None
+    if cart_item_id in cart:
+                # If a cart item already exists, update its quantity
+        cart_item = cart[cart_item_id]
+        cart_item['quantity'] += 1
+        cart_item['price'] += product.min_price
+    else:
+                # If no cart item exists, create a new one
+        cart_item = {
+                    'product': product,
+                    'variants': [v.id for v in product_variant],
+                    'quantity': 1,
+                    'price': product.min_price,
+                }
+        cart[cart_item_id] = cart_item
+    request.session['cart'] = cart
+    return redirect(reverse('single_product', args=[product.id]))
 
 def _redirect_requested(request):
     if request.user.is_authenticated:
@@ -412,6 +447,11 @@ class User_download(TemplateView):
 class Basket(TemplateView):
     template_name = 'basket.html'
 
+    @method_decorator(login_required(login_url='login'))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+
 
     def post(self, request):
         code = request.POST.get('voucher_code')
@@ -453,6 +493,7 @@ class Basket(TemplateView):
         context = super().get_context_data(**kwargs)
         
         cart_items = CartItems.objects.filter(user=self.request.user.id)
+        session_cart = self.request.session.get('cart',{})
         cart_item_price= 0
         for items in cart_items:
         
@@ -465,6 +506,7 @@ class Basket(TemplateView):
         #         print(f"Variant value: {variant.variant_value}")
         context['cart'] = cart_items
         context ['total_price'] = cart_item_price
+        context['session_cart'] = session_cart
         
         return context
 
@@ -592,18 +634,7 @@ class Payment(TemplateView):
         order_receipt = 'order_rcptid_11'
         payment = client.order.create(dict(amount= order_amount, currency=order_currency, receipt=order_receipt, payment_capture=1))
         print(payment)
-        random_number = str(randint(100000, 999999)) +  datetime.now().strftime('%Y%m%d')
-        user_payment = Payments.objects.create(user = self.request.user,transaction_id = random_number, payment_method = "Razorpay", amount = total_price)
-        user_payment.save()
-        for items in cart_items:
-            order_item = OrderItem.objects.create(
-                user = self.request.user,payment = user_payment,product = items.product,quantity = items.quantity,price = items.price,amount = items.product.min_price)
-            order_item.save()
-            variants = items.variant.all()
-
-# set the variants for the order item
-            order_item.variant.set(variants)
-            send_order_receive_email(request = self.request,user=self.request.user)
+        
 
         
         
@@ -614,6 +645,56 @@ class Payment(TemplateView):
         context['address'] = UserAddress.objects.filter(user = self.request.user.id)
         
         return context
+    
+
+    def post(self,request):
+        payment_id = request.POST.get('razorpay_payment_id')
+        payment_signature = request.POST.get('razorpay_signature')
+        cart = Cart.objects.get(user=self.request.user.id)
+        cart_items = CartItems.objects.filter(cart=cart, user=self.request.user.id)
+        client = razorpay.Client(auth=(settings.RZP_KEY_ID, settings.RZP_KEY_SECRET))
+        try:
+            client.utility.verify_payment_signature({
+                'razorpay_payment_id': payment_id,
+                'razorpay_order_id': request.POST.get('razorpay_order_id'),
+                'razorpay_signature': payment_signature
+            })
+        except Exception as e:
+            # Payment verification failed, handle the error here
+            print(f"Payment verification failed: {e}")
+            return redirect('payment')
+        
+        user_payment = Payments.objects.create(
+            user=request.user,
+            transaction_id=payment['id'],
+            payment_method="Razorpay",
+            amount=total_price
+        )
+
+        for items in cart_items:
+            order_item = OrderItem.objects.create(
+                user=request.user,
+                payment=user_payment,
+                product=items.product,
+                quantity=items.quantity,
+                price=items.price,
+                amount=items.product.min_price
+            )
+            order_item.save()
+            variants = items.variant.all()
+            order_item.variant.set(variants)
+            send_order_receive_email(request=request, user=request.user)
+
+        # Clear the cart after successful payment
+        cart_items.delete()
+        cart.total_items = 0
+        cart.total_price = 0
+        cart.save()
+
+        return redirect('order_placed')
+
+            
+
     
 
 

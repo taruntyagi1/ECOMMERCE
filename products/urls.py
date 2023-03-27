@@ -31,7 +31,8 @@ urlpatterns = [
     path('decrease/<int:product_id>/',DecreaseQuantity.as_view(),name='decrease'),
     path('send_mail/',SendMail.as_view(),name='send_mail'),
     path('search_filter/',views.search_filter,name='search_filter'),
-    path('review_create/',Reviews.as_view(),name='review_create')
+    path('review_create/',Reviews.as_view(),name='review_create'),
+    path('session_cart/<int:product_id>/',views.add_to_session_cart,name='session_cart')
    
     
 ]

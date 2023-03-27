@@ -2,6 +2,13 @@
 -------------------------------------------------------------- */
 @media only screen and (max-width: 1366px) {
 
+	.box-login {
+		margin-right: 30px;
+		font-size: 16px;
+		padding: 0px;
+
+	}
+
 	.instagram-wrap.style-1 .text-wrap {
 		left: 0%;
 	}
@@ -14,6 +21,12 @@
 @media only screen and ( max-width: 1199px ) {
 	.mail-chimp .flat-social {
 		padding-left: 0px;
+	}
+	.box-login {
+		margin-right: 30px;
+		font-size: 16px;
+		padding: 0px;
+
 	}
 
 	.instagram-wrap.col5 .instagram_badge_image {
@@ -74,6 +87,30 @@
 	.switcher-container {
 		display: none;
 	}
+	.menu-extra {
+		display: none;
+		position: relative;
+	  }
+	  .nav-wrap {
+		display: none;
+	  }
+	  .mobile-button {
+		display: block;
+	  }
+	/* .icon_login {
+		margin-right: 40px;
+		font-size: 16px;
+		padding: 0px;
+
+	} */
+	
+	  
+	.box-login {
+		position: relative;
+		top: auto;
+		left: auto;
+		display: block;
+	  }
 
 	.header-style-2 #site-header-inner {
 		padding: 20px 0px;
@@ -321,12 +358,19 @@
 	.flat-row.row-image-box {
 		padding: 35px 0px 0px 0px !important;
 	}
+	
 
 }
 
 @media only screen and ( max-width: 767px ) {
 	.flat-image-box.div-h20 .item {
 		margin-top: 20px;
+	}
+	.icon_login {
+		margin-right: 30px;
+		font-size: 16px;
+		padding: 0px;
+
 	}
 
 	.flat-filter li {
@@ -520,6 +564,12 @@
 		width: 100%;
 	}
 
+	.box-login {
+		margin-right: 30px;
+		font-size: 16px;
+		padding: 0px;
+
+	}
 	.product.style2 .product-item .product-thumb {
 		padding: 50px 0px 0px 0px;
 	}
