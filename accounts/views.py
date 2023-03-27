@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from accounts.serializer import *
-from twilio.rest import Client
+
 import random
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -29,17 +29,3 @@ class UserView(APIView):
 
 
 
-account_sid = 'AC1a4aaf43b387dbc796498a466dff2f84'
-auth_token = '9ac1e2a56e28dfd88e033838d8e657c3'
-@csrf_exempt
-def send_otp(request):
-    if request.method == "POST":
-        number = request.POST.get('phone_number')
-        otp = random.randint(1000,9999)
-        request.session['opt'] = otp
-        client = Client(account_sid, auth_token)
-        message = client.messages .create(
-                        body="Your otp for login is {otp}",
-                        from_='7906904898',
-                        to=number
-                    )
