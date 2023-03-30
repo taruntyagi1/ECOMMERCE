@@ -96,7 +96,7 @@
               {% endif %}
               <li class="box-cart nav-top-cart-wrapper">
                 <a class="icon_cart nav-cart-trigger active" href="{% url 'basket' %}"> <span class="cart-count" data-cart-count="0">0</span></a>
-                <div class="nav-shop-cart">
+                {% comment %} <div class="nav-shop-cart">
                   <div class="widget_shopping_cart_content">
                     <div class="woocommerce-min-cart-wrap">
                       <ul class="woocommerce-mini-cart cart_list product_list_widget">
@@ -105,7 +105,7 @@
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> {% endcomment %}
               </li>
             </ul>
             <div class="nav-wrap">
@@ -133,6 +133,9 @@
                     {% else %}
                     <a class="icon_menu" href="#"></a>
                     {% endif %}
+                  </li>
+                  <li>
+                    <a class="res_cart" style="display: none;" href="{% url 'basket' %}"><span><i class="fas fa-shopping-basket"></i></span> <span class="cart-count" data-cart-count="0">0</span></a>
                   </li>
                 </ul>
               </nav>

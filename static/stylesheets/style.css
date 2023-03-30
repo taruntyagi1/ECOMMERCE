@@ -4136,9 +4136,9 @@ body.active .wrapper .section {
 }
 
 .main-shop .product-card {
-	display: flex;
-  flex-wrap: wrap;
-  gap: 23px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	
   margin-left: 100px;
 }
 
@@ -4170,14 +4170,23 @@ body.active .wrapper .section {
 }
 
 .cat_filters .cat_name{
-	
+	position: relative;
+	left: 38px;
 }
 
 .cat_filters .cat_name a{
 	padding: 10px;
-	color: white;
-	background-color: red;
-	margin-left: 10px !important;
+    color: white;
+    background-color: red;
+    margin-left: 10px !important;
+    width: 20px !;
+    /* display: flex; */
+    flex-direction: row;
+    display: block;
+    display: inline-block;
+    width: 151px;
+    justify-content: center;
+    text-align: center;
 }
 
 .elm-btn .cat_btn{
@@ -4280,4 +4289,16 @@ body.active .wrapper .section {
     top: 20px;
     font-size: 25px;
     font-weight: 500;
+}
+
+.search_filter{
+	    /* margin-top: 4px; */
+		position: relative;
+		top: 22px;
+		left: 42px;
+}
+.search_filter button{
+	position: relative;
+    left: 228px;
+    top: -47px;
 }

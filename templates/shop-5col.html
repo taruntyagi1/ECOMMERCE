@@ -34,6 +34,20 @@
           <a href="{% url 'filter_products' %}?category={{obj.slug}}" {% if obj.slug == category_slug %}class="active"{% endif %}>{{obj.title}}</a>
           {% endfor %}
         </div>
+        <li class="dropdown cat_dropdown" style="display: none;">
+         
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          
+              <a href="{% url 'shop' %}">All</a>
+              {% for obj in links  %}
+              <a href="{% url 'filter_products' %}?category={{obj.slug}}" {% if obj.slug == category_slug %}class="active"{% endif %}>{{obj.title}}</a>
+              {% endfor %}
+           
+           
+          </ul>
+          
+        </li>
         <div class="search_filter">
           <form action="{% url 'search_filter' %}" method="post">
             {% csrf_token %}

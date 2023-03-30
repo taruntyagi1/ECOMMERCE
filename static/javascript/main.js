@@ -863,11 +863,14 @@ $(document).ready(function () {
         responsive: {
             0: {
                 items: 1,
-                nav: false
+                nav: false,
+                margin : 0
             },
-            600: {
-                items: 2,
-                nav: false
+            414: {
+                items: 3,
+                nav: false,
+                margin : 0,
+                dots: true,
             },
             1000: {
                 items: 3,
@@ -1044,6 +1047,8 @@ $(document).ready(function () {
 
     })
 })
+
+
 
 
 $(document).ready(function(){
