@@ -648,52 +648,81 @@ class Payment(TemplateView):
     
 
     def post(self,request):
-        payment_id = request.POST.get('razorpay_payment_id')
-        payment_signature = request.POST.get('razorpay_signature')
+        
         cart = Cart.objects.get(user=self.request.user.id)
         cart_items = CartItems.objects.filter(cart=cart, user=self.request.user.id)
+        total_price = sum(item.price for item in cart_items)
         client = razorpay.Client(auth=(settings.RZP_KEY_ID, settings.RZP_KEY_SECRET))
+        rzp_payment_id = request.POST.get("razorpay_payment_id")
+        rzp_order_id = request.POST.get('razorpay_order_id')
+        rzp_payment_signature  = request.POST.get("razorpay_signature")        
+
+        
+        params_dict = {
+            'razorpay_payment_id' : rzp_payment_id,
+            'razorpay_order_id' : rzp_order_id,
+            'razorpay_signature' : rzp_payment_signature,
+        }
         try:
-            client.utility.verify_payment_signature({
-                'razorpay_payment_id': payment_id,
-                'razorpay_order_id': request.POST.get('razorpay_order_id'),
-                'razorpay_signature': payment_signature
-            })
+            generated_signature = client.utility.verify_payment_signature(params_dict)
         except Exception as e:
             # Payment verification failed, handle the error here
             print(f"Payment verification failed: {e}")
             return redirect('payment')
+        if generated_signature:
         
-        user_payment = Payments.objects.create(
-            user=request.user,
-            transaction_id=payment['id'],
-            payment_method="Razorpay",
-            amount=total_price
-        )
-
-        for items in cart_items:
-            order_item = OrderItem.objects.create(
+            user_payment = Payments.objects.create(
                 user=request.user,
-                payment=user_payment,
-                product=items.product,
-                quantity=items.quantity,
-                price=items.price,
-                amount=items.product.min_price
+                transaction_id=rzp_payment_id,
+                payment_method="Razorpay",
+                amount=total_price
             )
-            order_item.save()
-            variants = items.variant.all()
-            order_item.variant.set(variants)
-            send_order_receive_email(request=request, user=request.user)
 
-        # Clear the cart after successful payment
-        cart_items.delete()
-        cart.total_items = 0
-        cart.total_price = 0
-        cart.save()
+            for items in cart_items:
+                order_item = OrderItem.objects.create(
+                    user=request.user,
+                    payment=user_payment,
+                    product=items.product,
+                    quantity=items.quantity,
+                    price=items.price,
+                    amount=items.product.min_price
+                )
+                order_item.save()
+                variants = items.variant.all()
+                order_item.variant.set(variants)
+                send_order_receive_email(request=request, user=request.user)
+
+            # Clear the cart after successful payment
+            cart_items.delete()
+            cart.delete()
+            cart.save()
 
         return redirect('order_placed')
 
-            
+# def verify_payment(request):
+#     if request.method == "POST":
+#         rzp_payment_id = request.POST.get("razorpay_payment_id")
+#         rzp_order_id = request.POST.get('razorpay_order_id')
+#         rzp_payment_signature  = request.POST.get("razorpay_signature")        
+
+#         client = razorpay.Client(auth=(settings.RZP_KEY_ID, settings.RZP_KEY_SECRET))
+#         params_dict = {
+#             'razorpay_payment_id' : rzp_payment_id,
+#             'razorpay_order_id' : rzp_order_id,
+#             'razorpay_signature' : rzp_payment_signature,
+#         }
+#         try:
+#             generated_signature = client.utility.verify_payment_signature(params_dict)
+#         except:
+#             pass
+#         if generated_signature:
+#             user_payment = Payments.objects.create(
+#                 user = request.user,
+#                 transaction_id = rzp_payment_id,
+#                 payment_method = 'Razorpay',
+#                 total = 
+#             )
+        
 
     
 
