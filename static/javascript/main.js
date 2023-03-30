@@ -1169,3 +1169,17 @@ $(document).ready(function(){
 //     rzp1.open();
 //     e.preventDefault();
 // }
+
+
+$(document).ready(function() {
+    var activeLink = $(".cat_name a.active");
+    if (activeLink.length) {
+      activeLink.removeClass("active");
+    }
+    var categorySlug = "{{ category_slug }}";
+    if (categorySlug) {
+      var link = $(".cat_name a[href$='category=" + categorySlug + "']");
+      link.addClass("active");
+    }
+  });
+  
